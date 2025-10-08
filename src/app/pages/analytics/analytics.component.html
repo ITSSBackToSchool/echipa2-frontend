@@ -1,0 +1,64 @@
+<app-sidebar></app-sidebar>
+
+<div class="analytics-page">
+  <h2>Select Data</h2>
+  <hr />
+
+  <div class="filters">
+    <div class="filter">
+      <label>Select Time</label>
+      <select [(ngModel)]="selectedTime">
+        <option value="" disabled selected>Select...</option>
+        <option *ngFor="let t of times">{{ t }}</option>
+      </select>
+    </div>
+
+    <div class="filter">
+      <label>Select Etaj</label>
+      <select [(ngModel)]="selectedFloor">
+        <option value="" disabled selected>Select...</option>
+        <option *ngFor="let f of floors">{{ f }}</option>
+      </select>
+    </div>
+
+    <div class="filter">
+      <label>Select Workspace</label>
+      <select [(ngModel)]="selectedWorkspace">
+        <option value="" disabled selected>Select...</option>
+        <option *ngFor="let w of workspaces">{{ w }}</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="cards">
+    <div class="table-card">
+      <table>
+        <thead>
+          <tr>
+            <th>Angajat</th>
+            <th>Data</th>
+            <th>Locul</th>
+            <th>Sala</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let r of reservations">
+            <td>{{ r.employee }}</td>
+            <td>{{ r.date }}</td>
+            <td>{{ r.seat }}</td>
+            <td>{{ r.room }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="chart-card">
+      <canvas
+        baseChart
+        [data]="chartData"
+        [options]="chartOptions"
+        chartType="line">
+      </canvas>
+    </div>
+  </div>
+</div>

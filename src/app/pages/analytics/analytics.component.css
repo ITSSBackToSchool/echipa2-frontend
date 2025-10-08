@@ -1,0 +1,160 @@
+.analytics-page {
+  padding: 20px;
+  background: #f6f8f9;
+  min-height: 100%;
+}
+
+h2 {
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.filter {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+  flex: 1;
+  min-width: 200px;
+}
+
+.filter label {
+  font-weight: 500;
+  margin-bottom: 5px;
+}
+
+select {
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+}
+
+.cards {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.table-card, .chart-card {
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  padding: 16px;
+  flex: 1;
+  min-width: 320px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
+}
+
+th {
+  background-color: #e6f1f2;
+  font-weight: 600;
+}
+
+@media (max-width: 900px) {
+  .filters, .cards {
+    flex-direction: column;
+  }
+}
+/* Mută tot conținutul în dreapta sidebar-ului fix */
+.analytics-page {
+  margin-left: 250px; /* cât e lățimea sidebar-ului */
+  padding: 24px;
+  min-height: 100vh;
+  background: #f6f8f9;
+}
+
+/* Titlu și separator */
+.analytics-page h2 {
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #222;
+}
+.analytics-page hr {
+  border: none;
+  height: 1px;
+  background: #ccc;
+  margin-bottom: 24px;
+}
+
+/* Filtrele de sus */
+.filters {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.filter {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter label {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.filter select {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background: #fff;
+}
+
+/* Carduri jos */
+.cards {
+  display: flex;
+  gap: 24px;
+}
+
+.table-card,
+.chart-card {
+  flex: 1;
+  background: white;
+  border-radius: 10px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Tabelul */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  padding: 8px;
+  background: #f0f0f0;
+  border-bottom: 1px solid #ddd;
+}
+
+td {
+  padding: 8px;
+  border-bottom: 1px solid #eee;
+}

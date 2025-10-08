@@ -1,0 +1,62 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">LOGO</div>
+    <nav class="menu">
+      <a routerLink="/dashboard" class="active">Dashboard</a>
+      <a routerLink="/reservations">My Reservations</a>
+      <a routerLink="/book-room">Book a Room</a>
+      <a routerLink="/book-seat">Book my seat</a>
+      <a routerLink="/traffic">Traffic</a>
+      <a routerLink="/weather">Weather</a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="content">
+    <header class="header">
+      <h2>Dashboard</h2>
+      <div class="date-range">22–26 Sept</div>
+    </header>
+
+    <section class="reservations">
+      <h3>Your Reservations</h3>
+      <div class="reservation-card" *ngFor="let res of reservations">
+        <strong>{{ res.date }}</strong>
+        <div class="details">{{ res.details }}</div>
+      </div>
+    </section>
+
+    <section class="bottom-section">
+      <!-- Office presence -->
+      <div class="presence">
+        <div class="title">Your Office Presence</div>
+        <div class="metrics">
+          <div class="metric">
+            <span>This month</span>
+            <strong>{{ officePresence.month }}</strong>
+          </div>
+          <div class="metric">
+            <span>Total</span>
+            <strong>{{ officePresence.total }}</strong>
+          </div>
+          <div class="metric">
+            <span>Streak</span>
+            <strong>{{ officePresence.streak }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <!-- Weather -->
+      <div class="weather">
+        <div class="title">23 Sep →</div>
+        <div class="card">
+          <div class="city">{{ weather.city }}</div>
+          <div class="icon">☀️</div>
+          <div class="temp">{{ weather.temp }}</div>
+          <div class="condition">{{ weather.condition }}</div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

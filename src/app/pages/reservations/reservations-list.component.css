@@ -1,0 +1,49 @@
+.reservations-page {
+  margin-left: 240px; /* pentru sidebar fix */
+  padding: 24px;
+  min-height: 100vh;
+  background: #f6f8f9;
+  box-sizing: border-box;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.btn-primary {
+  background-color: #1f4d52;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.reservations-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+}
+
+.reservations-table th {
+  background: #1f4d52;
+  color: white;
+  text-align: left;
+  padding: 10px;
+}
+
+.reservations-table td {
+  padding: 10px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.reservations-table tr:hover {
+  background: #f1f1f1;
+}

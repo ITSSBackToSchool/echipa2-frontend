@@ -1,0 +1,56 @@
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  background-color: #f7f7f7;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 230px;
+  background-color: #286d6d;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 1rem;
+  background: #333;
+  text-align: center;
+}
+
+.sidebar .menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .menu a {
+  color: #e2e2e2;
+  text-decoration: none;
+  padding: 0.8rem 1.2rem;
+  transition: background 0.2s;
+}
+
+.sidebar .menu a:hover,
+.sidebar .menu a.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+/* Content */
+.content {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Book Room specific styles */
+.book-room-page .dates { margin-bottom: 1rem; }
+.book-room-page .filters { display: flex; gap: 1rem; margin-bottom: 1rem; }
+.book-room-page .btn-search { margin-bottom: 1rem; }
+.popup { background: #fff; border: 1px solid #ccc; padding: 1rem; border-radius: 6px; }
+.popup-buttons { display: flex; justify-content: flex-end; gap: 0.5rem; }

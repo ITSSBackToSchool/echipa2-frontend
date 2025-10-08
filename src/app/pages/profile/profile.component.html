@@ -1,0 +1,32 @@
+<div class="profile-wrapper" *ngIf="user; else notLogged">
+  <h2>Profilul meu</h2>
+
+  <div class="profile-card">
+    <div class="avatar">{{ user.name[0] | uppercase }}</div>
+
+    <div class="info">
+      <label>Nume:</label>
+      <input [(ngModel)]="user.name" [readonly]="!isEditing" />
+
+      <label>Email:</label>
+      <input [(ngModel)]="user.email" readonly />
+
+      <label>Rol:</label>
+      <input [(ngModel)]="user.role" readonly />
+
+      <div class="buttons">
+        <button *ngIf="!isEditing" (click)="toggleEdit()" class="btn-edit">Editează</button>
+        <button *ngIf="isEditing" (click)="saveProfile()" class="btn-save">Salvează</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 🔹 Când userul nu este logat -->
+<ng-template #notLogged>
+  <div class="not-logged">
+    <h2>Nu ești autentificat</h2>
+    <p>Te rugăm să te conectezi pentru a-ți vizualiza profilul.</p>
+    <button class="btn-login" (click)="goToLogin()">Mergi la Login</button>
+  </div>
+</ng-template>

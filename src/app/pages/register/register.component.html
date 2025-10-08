@@ -1,0 +1,72 @@
+<div class="container">
+  <header class="header">
+    <div class="logo">LOGO</div>
+    <a routerLink="/login" class="login-link">Autentificare</a>
+  </header>
+
+  <main class="main-content">
+    <div class="left">
+      <h2>Creează-ți contul și rezervă locul tău preferat!</h2>
+      <p>
+        Fă parte din comunitatea noastră și gestionează-ți rezervările rapid,
+        simplu și eficient.
+      </p>
+    </div>
+
+    <div class="right">
+      <div class="card">
+        <h3>Înregistrare</h3>
+
+        <form (ngSubmit)="register()">
+          <label>Nume complet</label>
+          <input
+            type="text"
+            [(ngModel)]="fullName"
+            name="fullName"
+            placeholder="Numele tău complet"
+            required
+          />
+
+          <label>Email</label>
+          <input
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="nume@email.com"
+            required
+          />
+
+          <label>Parolă</label>
+          <input
+            type="password"
+            [(ngModel)]="password"
+            name="password"
+            placeholder="Alege o parolă"
+            required
+          />
+
+          <label>Confirmă parola</label>
+          <input
+            type="password"
+            [(ngModel)]="confirmPassword"
+            name="confirmPassword"
+            placeholder="Confirmă parola"
+            required
+          />
+
+          <button type="submit" class="btn-primary">Creează cont</button>
+
+          <div class="divider">
+            <span>–––––––– Sau ––––––––</span>
+          </div>
+
+          <button type="button" routerLink="/login" class="btn-secondary">
+            Ai deja cont? Autentifică-te
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">Footer</footer>
+</div>

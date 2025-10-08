@@ -1,0 +1,18 @@
+<app-sidebar></app-sidebar>
+
+<div class="calendar-page">
+  <div class="cal">
+    <div class="cal-header">
+      <button (click)="prev()">&larr;</button>
+      <h3>{{monthLabel}}</h3>
+      <button (click)="next()">&rarr;</button>
+    </div>
+
+    <div class="grid">
+      <div class="dow" *ngFor="let d of ['Mon','Tue','Wed','Thu','Fri','Sat','Sun']">{{d}}</div>
+      <div class="cell" *ngFor="let d of daysInMonth()">
+        <span class="num">{{d.format('D')}}</span>
+      </div>
+    </div>
+  </div>
+</div>

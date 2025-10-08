@@ -1,0 +1,63 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">LOGO</div>
+    <nav class="menu">
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+      <a routerLink="/reservations" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">My Reservations</a>
+      <a routerLink="/book-room" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Book a Room</a>
+      <a routerLink="/book-seat" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Book my seat</a>
+      <a routerLink="/traffic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Traffic</a>
+      <a routerLink="/weather" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Weather</a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="content">
+    <h2>Weather</h2>
+
+    <!-- 🔹 Navigare lună/an -->
+    <div class="calendar-header">
+      <button (click)="prevMonth()">‹</button>
+      <h3>{{ monthLabel }}</h3>
+      <button (click)="nextMonth()">›</button>
+    </div>
+
+    <!-- 🔹 Calendar -->
+    <div class="calendar">
+      <div class="weekdays">
+        <div *ngFor="let d of daysOfWeek">{{ d }}</div>
+      </div>
+
+      <div class="days">
+        <div *ngFor="let day of calendarDays"
+             [class.empty]="!day"
+             [class.today]="isToday(day)"
+             [class.selected]="isSelected(day)"
+             (click)="selectDay(day)">
+          {{ day?.getDate() || '' }}
+        </div>
+      </div>
+    </div>
+
+    <!-- 🔹 Afișare date meteo -->
+    <div *ngIf="weatherData" class="weather-box">
+      <div class="hours">
+        <div *ngFor="let h of weatherData.hours">
+          <strong>{{ h.hour }}</strong> – {{ h.temp }}°C
+        </div>
+      </div>
+
+      <div class="summary">
+        <p>{{ weatherData.location }}</p>
+        <div class="icon">
+          <span *ngIf="weatherData.condition === 'Sunny'">☀️</span>
+          <span *ngIf="weatherData.condition === 'Cloudy'">☁️</span>
+          <span *ngIf="weatherData.condition === 'Rainy'">🌧️</span>
+        </div>
+        <h3>{{ weatherData.temperature }}°</h3>
+        <p>{{ weatherData.condition }}</p>
+      </div>
+    </div>
+  </main>
+</div>

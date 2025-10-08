@@ -1,0 +1,82 @@
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo">LOGO</div>
+    <nav class="menu">
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+      <a routerLink="/reservations" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">My Reservations</a>
+      <a routerLink="/book-room" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Book a Room</a>
+      <a routerLink="/book-seat" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Book my seat</a>
+      <a routerLink="/traffic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Traffic</a>
+      <a routerLink="/weather" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Weather</a>
+    </nav>
+  </aside>
+
+  <!-- Main content -->
+  <main class="content">
+    <h2>Book My Seat</h2>
+
+    <div class="selectors">
+      <div class="dates">
+        <button *ngFor="let d of dates"
+                [class.active]="d === selectedDate"
+                (click)="selectedDate = d">{{ d }}</button>
+      </div>
+
+      <div class="select-row">
+        <div>
+          <label>Select Time</label>
+          <div class="time-select">
+            <input type="time" [(ngModel)]="selectedFrom"> -
+            <input type="time" [(ngModel)]="selectedTo">
+          </div>
+        </div>
+
+        <div>
+          <label>Select Etaj</label>
+          <select [(ngModel)]="selectedFloor">
+            <option>Etaj 1</option>
+            <option>Etaj 2</option>
+            <option>Etaj 3</option>
+          </select>
+        </div>
+
+        <div>
+          <label>Select Workspace</label>
+          <select [(ngModel)]="selectedWorkspace">
+            <option>Open Space</option>
+            <option>Meeting Room A</option>
+            <option>Meeting Room B</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div class="seats-grid">
+      <div *ngFor="let seat of seats"
+           class="seat"
+           [class.booked]="seat.booked"
+           (click)="toggleSeat(seat)">
+        💺
+        <div class="seat-id">{{ seat.id }}</div>
+      </div>
+    </div>
+
+    <!-- Confirmare rezervare -->
+    <div class="popup" *ngIf="showConfirm">
+      <p>Are you sure you want to book seat #{{selectedSeat.id}} in "{{selectedWorkspace}}"?</p>
+      <div class="popup-buttons">
+        <button (click)="confirmBooking()">OK</button>
+        <button (click)="closePopup()">Cancel</button>
+      </div>
+    </div>
+
+    <!-- Confirmare finală -->
+    <div class="popup" *ngIf="showBooked">
+      <p>Seat booked successfully ✅</p>
+      <div class="popup-buttons">
+        <button (click)="closePopup()">OK</button>
+      </div>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,38 @@
+<div class="layout">
+  <!-- 🔹 Sidebar fix (verde) -->
+  <!-- <aside class="sidebar">
+    <div class="logo">BookASeat</div>
+
+    <nav>
+      <a *ngFor="let item of (role === 'ADMIN' ? navAdmin : navEmployee)"
+         [routerLink]="item.path"
+         routerLinkActive="active">{{ item.label }}</a>
+    </nav>
+
+    <div class="user">
+      <div>{{ user?.name || 'User' }}</div>
+      <small>{{ role }}</small>
+      <button (click)="logout()">Logout</button>
+    </div>
+  </aside> -->
+
+  <!-- 🔹 Conținut principal -->
+  <div class="main-section">
+    <header class="topbar">
+      <div class="topbar-title">Dashboard</div>
+
+      <div class="profile-container" (click)="toggleDropdown()">
+        <div class="profile-icon">👤</div>
+        <div class="dropdown" *ngIf="dropdownOpen">
+          <a routerLink="/profile">Profile</a>
+          <a routerLink="/account">Change Account</a>
+          <button (click)="logout()">Log Out</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

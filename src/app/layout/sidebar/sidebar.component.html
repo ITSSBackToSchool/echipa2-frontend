@@ -1,0 +1,16 @@
+<aside class="sidebar">
+  <div class="logo">LOGO</div>
+
+  <nav>
+    <a *ngFor="let item of (role === 'ADMIN' ? navAdmin : navEmployee)"
+       [routerLink]="item.path"
+       routerLinkActive="active">
+      {{ item.label }}
+    </a>
+  </nav>
+
+  <div class="user">
+    <div>{{ user?.name || 'User' }}</div>
+    <small>{{ role }}</small>
+  </div>
+</aside>
