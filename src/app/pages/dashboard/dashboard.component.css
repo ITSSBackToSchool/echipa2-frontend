@@ -97,6 +97,16 @@
   background: #f1f1f1;
   border-radius: 8px;
   padding: 1rem;
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.12);
+  /* smooth transition for shadow/position when interacting */
+  transition: box-shadow 200ms ease, transform 200ms ease;
+}
+
+.presence:hover,
+.presence:focus-within {
+  /* stronger diagonal shadow on hover/focus */
+  box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.16);
+  transform: translateY(-4px);
 }
 
 .presence .title {
@@ -131,6 +141,18 @@
   border-radius: 8px;
   padding: 1rem;
   text-align: center;
+}
+
+.weather {
+  /* subtle diagonal shadow and smooth interaction similar to .presence */
+  box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.12);
+  transition: box-shadow 200ms ease, transform 200ms ease;
+}
+
+.weather:hover,
+.weather:focus-within {
+  box-shadow: 4px 6px 12px rgba(0, 0, 0, 0.16);
+  transform: translateY(-4px);
 }
 
 .weather .card {
