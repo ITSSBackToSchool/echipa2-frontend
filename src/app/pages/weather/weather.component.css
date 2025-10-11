@@ -4,6 +4,15 @@
   font-family: 'Segoe UI', sans-serif;
   background: #f6f8f9;
 }
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background-color: #f6f8f9;
+}
 
 /* Sidebar */
 .sidebar {
@@ -38,6 +47,24 @@
 .sidebar .menu a.active {
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
+}
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #333;
+  padding: 1rem;
+}
+
+.logo img {
+  max-width: 150px;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.05);
 }
 
 /* Content */

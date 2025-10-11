@@ -1,6 +1,19 @@
 <app-sidebar></app-sidebar>
 
 <div class="analytics-page">
+  <aside class="sidebar">
+    <div class="logo">  <a routerLink="/home">
+    <img src="assets/logo.png" alt="OffiSeat Logo">
+  </a></div>
+    <nav class="menu">
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+      <a routerLink="/reservations" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">My Reservations</a>
+      <a routerLink="/book-room" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Book a Room</a>
+      <a routerLink="/book-seat" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Book my seat</a>
+      <a routerLink="/traffic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Traffic</a>
+      <a routerLink="/weather" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Weather</a>
+    </nav>
+  </aside>
   <h2>Select Data</h2>
   <hr />
 

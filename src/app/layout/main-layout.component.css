@@ -1,23 +1,61 @@
 /* ===== STRUCTURĂ GENERALĂ ===== */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  background: #f6f8f9;
+}
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background-color: #f6f8f9;
+}
+
 .layout {
   display: flex;
   height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
   overflow: hidden;
   background: #f6f8f9;
 }
 
+.layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+
 /* ===== SIDEBAR VERDE FIX ===== */
 .sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  margin: 0;
+  padding: 20px;
   width: 250px;
   background-color: #1f4d52;
   color: white;
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
 }
 
 .sidebar .logo {
@@ -67,11 +105,12 @@
 
 /* ===== SECTIUNEA PRINCIPALĂ ===== */
 .main-section {
-  margin-left: 250px; /* lasă loc sidebar-ului fix */
+   
   flex: 1;
   display: flex;
   flex-direction: column;
   height: 100vh;
+  width: calc(100vw - 250px);
 }
 
 /* ===== TOPBAR ===== */
@@ -80,29 +119,49 @@
   color: white;
   padding: 10px 20px;
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end; /* 🔹 Mutăm profilul în dreapta complet */
   align-items: center;
+  height: 50px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
+/* 🔹 Am eliminat topbar-title (Dashboard) complet */
 .topbar-title {
-  font-size: 18px;
-  font-weight: 500;
+  display: none;
 }
 
 /* ===== PROFIL DROPDOWN ===== */
-.profile-container {
+/* .profile-container {
   position: relative;
   cursor: pointer;
 }
 
 .profile-icon {
   font-size: 22px;
+} */
+.profile-icon {
+  background-color: #1f4d52; /* verde smarald */
+  color: white;              /* pictograma albă */
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
+.profile-icon:hover {
+  background-color:#1f4d52; /* verde mai închis la hover */
+}
 .dropdown {
   position: absolute;
   right: 0;
-  top: 35px;
+  top: 40px;
   background: white;
   color: #333;
   border-radius: 6px;
@@ -135,4 +194,5 @@
   padding: 24px;
   overflow-y: auto;
   background: #f6f8f9;
+  min-height: calc(100vh - 50px); /* scade bara de sus */
 }

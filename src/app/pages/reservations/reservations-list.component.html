@@ -1,27 +1,45 @@
-<app-sidebar></app-sidebar>
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo"> <a routerLink="/home">
+    <img src="assets/logo.png" alt="OffiSeat Logo">
+  </a></div>
+    <nav class="menu">
+      <a routerLink="/dashboard" >Dashboard</a>
+      <a routerLink="/reservations" class="active">My Reservations</a>
+      <a routerLink="/book-room">Book a Room</a>
+      <a routerLink="/book-seat">Book my seat</a>
+      <a routerLink="/traffic">Traffic</a>
+      <a routerLink="/weather">Weather</a>
+    </nav>
+  </aside>
+  <!-- Main content -->
+  <main class="content">
+    <h2>My Reservations</h2>
 
-<div class="reservations-page">
-  <div class="header">
-    <h2>Rezervările mele</h2>
-    <button class="btn-primary">+ Creează rezervare</button>
-  </div>
+    <div class="table-section">
+      <button class="create-btn">+ Create Reservation</button>
 
-  <table class="reservations-table">
-    <thead>
-      <tr>
-        <th>Angajat</th>
-        <th>Data</th>
-        <th>Locul</th>
-        <th>Sala</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let r of reservations">
-        <td>{{ r.employee }}</td>
-        <td>{{ r.date }}</td>
-        <td>{{ r.seat }}</td>
-        <td>{{ r.room }}</td>
-      </tr>
-    </tbody>
-  </table>
+      <div class="table-card">
+        <table>
+          <thead>
+            <tr>
+              <th>Employee</th>
+              <th>Date</th>
+              <th>Seat</th>
+              <th>Room</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of reservations">
+              <td>{{ r.employee }}</td>
+              <td>{{ r.date }}</td>
+              <td>{{ r.seat }}</td>
+              <td>{{ r.room }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
 </div>

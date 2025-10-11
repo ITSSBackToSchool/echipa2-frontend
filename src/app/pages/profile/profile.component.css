@@ -1,29 +1,108 @@
-.profile-wrapper {
-  max-width: 600px;
-  margin: 50px auto;
-  background: #fff;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+/* ===== STRUCTURĂ GENERALĂ ===== */
+.dashboard-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  background: #f6f8f9;
+  font-family: 'Segoe UI', sans-serif;
+}
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+  background-color: #f6f8f9;
+}
+
+
+/* ===== SIDEBAR ===== */
+/* Sidebar */
+.sidebar {
+  width: 230px;
+  background-color: #286d6d;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 1rem;
+  background: #333;
+  text-align: center;
+}
+
+.sidebar .menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .menu a {
+  color: #e2e2e2;
+  text-decoration: none;
+  padding: 0.8rem 1.2rem;
+  transition: background 0.2s;
+}
+
+.sidebar .menu a:hover,
+.sidebar .menu a.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #333;
+  padding: 1rem;
+}
+
+.logo img {
+  max-width: 150px;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.05);
+}
+
+/* ===== CONȚINUT ===== */
+.content {
+  margin-left: 270px;
+  padding: 32px;
+  flex: 1;
 }
 
 h2 {
+  font-size: 1.6rem;
+  font-weight: 600;
+  margin-bottom: 24px;
   text-align: center;
-  color: #1f4d52;
-  margin-bottom: 20px;
 }
 
-.profile-card {
+/* ===== PROFIL ===== */
+.profile-container {
   display: flex;
-  gap: 20px;
   align-items: flex-start;
+  gap: 30px;
+  background: #fff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  width: fit-content;
+  margin: auto;
 }
 
 .avatar {
-  background: #2a656b;
-  color: white;
-  font-size: 28px;
-  font-weight: bold;
+  background: #1f4d52;
+  color: #fff;
+  font-weight: 700;
+  font-size: 32px;
   width: 80px;
   height: 80px;
   border-radius: 50%;
@@ -32,78 +111,20 @@ h2 {
   justify-content: center;
 }
 
-.info {
-  flex: 1;
+.profile-info {
   display: flex;
   flex-direction: column;
+  gap: 12px;
+  min-width: 320px;
 }
 
 label {
   font-weight: 500;
-  margin-top: 10px;
-  color: #333;
 }
 
 input {
-  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
-  background: #f8f8f8;
-}
-
-input[readonly] {
-  background: #f2f2f2;
-  color: #555;
-}
-
-.buttons {
-  margin-top: 16px;
-  display: flex;
-  gap: 10px;
-}
-
-.btn-edit,
-.btn-save,
-.btn-login {
-  padding: 8px 14px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: 0.3s;
-}
-
-.btn-edit {
-  background: #1f4d52;
-  color: #fff;
-}
-
-.btn-save {
-  background: #2a656b;
-  color: #fff;
-}
-
-.btn-login {
-  background: #1f4d52;
-  color: #fff;
-  margin-top: 20px;
-}
-
-.btn-edit:hover,
-.btn-save:hover,
-.btn-login:hover {
-  opacity: 0.85;
-}
-
-.not-logged {
-  text-align: center;
-  margin-top: 80px;
-}
-
-.not-logged h2 {
-  color: #1f4d52;
-}
-
-.not-logged p {
-  color: #555;
+  padding: 8px 10px;
+  background: #f5f5f5;
 }

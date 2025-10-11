@@ -21,7 +21,7 @@ export class AuthService {
 
     this.userSig.set(mock);
     localStorage.setItem(this.storageKey, JSON.stringify(mock));
-    this.router.navigate(['/dashboard']);
+    // this.router.navigate(['/dashboard']);
   }
 
   logout() {

@@ -1,7 +1,9 @@
 <div class="dashboard-container">
   <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="logo">LOGO</div>
+    <div class="logo"> <a routerLink="/home">
+    <img src="assets/logo.png" alt="OffiSeat Logo">
+  </a></div>
     <nav class="menu">
       <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
       <a routerLink="/reservations" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">My Reservations</a>

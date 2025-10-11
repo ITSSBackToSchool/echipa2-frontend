@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
+import { RouterLink, RouterLinkActive } from '@angular/router'; // ✅ Import esențial
 
 @Component({
   selector: 'app-reservations-list',
   standalone: true,
-  imports: [CommonModule, SidebarComponent],
+  imports: [CommonModule, RouterLink, RouterLinkActive], // ✅ Adăugate aici
   templateUrl: './reservations-list.component.html',
   styleUrls: ['./reservations-list.component.css']
 })

@@ -14,7 +14,7 @@ import { BookMySeatComponent } from './pages/book-my-seat/book-my-seat.component
 import { BookRoomComponent } from './pages/book-room/book-room.component';
 import { TrafficComponent } from './pages/traffic/traffic.component';
 import { WeatherComponent } from './pages/weather/weather.component';
-
+import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
   // 🔹 Pagini publice
@@ -22,12 +22,16 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-  // 🔹 Layout-ul principal (pagini private)
+  // 🔹 Layout principal (pagini private)
   {
     path: '',
     component: MainLayoutComponent,
     canActivate: [authGuard],
     children: [
+      // 👇 Prima pagină după autentificare → HOME
+      { path: 'home', component: HomeComponent },
+
+      // 🔹 Dashboard & altele (nu mai dublăm rutele)
       { path: 'dashboard', component: DashboardComponent },
       { path: 'reservations', component: ReservationsListComponent },
       { path: 'reservations/new', component: ReservationFormComponent },
@@ -39,13 +43,10 @@ export const routes: Routes = [
         data: { roles: ['ADMIN'] }
       },
       { path: 'profile', component: ProfileComponent },
-      { path: 'reservations', component: ReservationsListComponent },
       { path: 'book-seat', component: BookMySeatComponent },
       { path: 'book-room', component: BookRoomComponent },
       { path: 'traffic', component: TrafficComponent },
-{ path: 'weather', component: WeatherComponent },
-
-
+      { path: 'weather', component: WeatherComponent },
     ]
   },
 

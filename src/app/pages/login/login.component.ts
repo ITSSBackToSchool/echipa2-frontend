@@ -19,9 +19,12 @@ export class LoginComponent {
 
   onLogin() {
     this.auth.login(this.email, this.password);
+
+    // ✅ redirecționează utilizatorul spre pagina Home după autentificare
+    this.router.navigate(['/home']);
   }
 
-  // 🔹 Asta lipsea — duce utilizatorul la pagina /register
+  // 🔹 dacă utilizatorul apasă "Creează cont"
   goToRegister() {
     this.router.navigate(['/register']);
   }

@@ -1,49 +1,154 @@
-.reservations-page {
-  margin-left: 240px; /* pentru sidebar fix */
-  padding: 24px;
-  min-height: 100vh;
-  background: #f6f8f9;
-  box-sizing: border-box;
-}
-
-.header {
+/* ===== STRUCTURĂ GENERALĂ ===== */
+.dashboard-container {
   display: flex;
-  justify-content: space-between;
+  height: 100vh;
+  width: 100vw;
+  background: #f6f8f9;
+  font-family: 'Segoe UI', sans-serif;
+}
+.page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
-  margin-bottom: 16px;
+  height: 100vh;
+  width: 100%;
+  background-color: #f6f8f9;
 }
 
-.btn-primary {
-  background-color: #1f4d52;
+
+/* Sidebar */
+.sidebar {
+  width: 230px;
+  background-color: #286d6d;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .logo {
+  font-size: 1.4rem;
+  font-weight: bold;
+  padding: 1rem;
+  background: #333;
+  text-align: center;
+}
+
+.sidebar .menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar .menu a {
+  color: #e2e2e2;
+  text-decoration: none;
+  padding: 0.8rem 1.2rem;
+  transition: background 0.2s;
+}
+
+.sidebar .menu a:hover,
+.sidebar .menu a.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #333;
+  padding: 1rem;
+}
+
+.logo img {
+  max-width: 150px;
+  height: auto;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.logo img:hover {
+  transform: scale(1.05);
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.menu a {
+  color: #cde;
+  text-decoration: none;
+  padding: 10px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+
+.menu a.active,
+.menu a:hover {
+  background-color: #2a656b;
+}
+
+/* ===== CONȚINUT PRINCIPAL ===== */
+.content {
+  margin-left: 270px;
+  padding: 32px;
+  flex: 1;
+}
+
+h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+
+/* ===== TABEL ===== */
+.table-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.create-btn {
+  align-self: flex-end;
+  background: #1f4d52;
   color: #fff;
   border: none;
-  padding: 8px 14px;
   border-radius: 8px;
+  padding: 8px 16px;
   cursor: pointer;
-  font-weight: 600;
+  transition: background 0.2s;
 }
 
-.reservations-table {
+.create-btn:hover {
+  background: #276268;
+}
+
+.table-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+table {
   width: 100%;
   border-collapse: collapse;
-  background: #fff;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
 }
 
-.reservations-table th {
+th {
   background: #1f4d52;
   color: white;
   text-align: left;
-  padding: 10px;
+  padding: 12px;
+  font-weight: 500;
 }
 
-.reservations-table td {
-  padding: 10px;
-  border-bottom: 1px solid #e5e7eb;
+td {
+  padding: 10px 12px;
+  border-top: 1px solid #e5e5e5;
 }
 
-.reservations-table tr:hover {
-  background: #f1f1f1;
+tr:hover {
+  background: #f8f8f8;
 }

@@ -1,32 +1,36 @@
-<div class="profile-wrapper" *ngIf="user; else notLogged">
-  <h2>Profilul meu</h2>
+<div class="dashboard-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="logo"> <a routerLink="/home">
+    <img src="assets/logo.png" alt="OffiSeat Logo">
+  </a></div>
+    <nav class="menu">
+      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
+      <a routerLink="/reservations" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">My Reservations</a>
+      <a routerLink="/book-room" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Book a Room</a>
+      <a routerLink="/book-seat" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Book my seat</a>
+      <a routerLink="/traffic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Traffic</a>
+      <a routerLink="/weather" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Weather</a>
+    </nav>
+  </aside>
 
-  <div class="profile-card">
-    <div class="avatar">{{ user.name[0] | uppercase }}</div>
+  <!-- Main content -->
+  <main class="content">
+    <h2>Profilul meu</h2>
 
-    <div class="info">
-      <label>Nume:</label>
-      <input [(ngModel)]="user.name" [readonly]="!isEditing" />
+    <div class="profile-container">
+      <div class="avatar">{{ userInitial }}</div>
 
-      <label>Email:</label>
-      <input [(ngModel)]="user.email" readonly />
+      <div class="profile-info">
+        <label>Nume:</label>
+        <input type="text" [value]="user?.name" readonly>
 
-      <label>Rol:</label>
-      <input [(ngModel)]="user.role" readonly />
+        <label>Email:</label>
+        <input type="text" [value]="user?.email" readonly>
 
-      <div class="buttons">
-        <button *ngIf="!isEditing" (click)="toggleEdit()" class="btn-edit">Editează</button>
-        <button *ngIf="isEditing" (click)="saveProfile()" class="btn-save">Salvează</button>
+        <label>Rol:</label>
+        <input type="text" [value]="user?.role" readonly>
       </div>
     </div>
-  </div>
+  </main>
 </div>
-
-<!-- 🔹 Când userul nu este logat -->
-<ng-template #notLogged>
-  <div class="not-logged">
-    <h2>Nu ești autentificat</h2>
-    <p>Te rugăm să te conectezi pentru a-ți vizualiza profilul.</p>
-    <button class="btn-login" (click)="goToLogin()">Mergi la Login</button>
-  </div>
-</ng-template>

@@ -1,3 +1,27 @@
 *{box-sizing:border-box} :root{--bg:#f6f8f9;--fg:#0f172a}
 html,body{height:100%} body{margin:0;font-family:Inter,system-ui,Arial;background:var(--bg);color:var(--fg)}
 h1,h2,h3{margin:.2em 0}
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  background: #f6f8f9;
+}
+
+#root, app-root {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  height: 100%;
+}
+
+.layout {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  overflow: hidden;
+}
