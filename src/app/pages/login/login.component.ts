@@ -1,30 +1,53 @@
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; 
 
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
+  standalone: true, // ✅ Make sure this line exists
+  imports: [CommonModule, FormsModule], // ✅ Add FormsModule here
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  email = '';
-  password = '';
+  emailModel: string = '';
+  passwordModel: string = '';
 
-  constructor(private auth: AuthService, private router: Router) {}
+  loading = false;
+  errorMessage = '';
+
+  constructor(private router: Router, private authService: AuthService) {}
 
   onLogin() {
-    this.auth.login(this.email, this.password);
+    if (!this.emailModel || !this.passwordModel) {
+      this.errorMessage = 'Te rugăm să completezi toate câmpurile.';
+      return;
+    }
 
-    // ✅ redirecționează utilizatorul spre pagina Home după autentificare
-    this.router.navigate(['/home']);
+    this.loading = true;
+    this.errorMessage = '';
+
+    this.authService.login(this.emailModel, this.passwordModel).subscribe({
+      next: (response) => {
+        console.log('Login success:', response);
+        this.loading = false;
+
+        // Redirecționează către dashboard
+        this.router.navigate(['/dashboard']);
+      },
+      error: (err) => {
+        this.loading = false;
+        this.errorMessage =
+          err.status === 401
+            ? 'Email sau parolă incorectă.'
+            : 'A apărut o eroare la autentificare.';
+        console.error('Login error:', err);
+      },
+    });
   }
 
-  // 🔹 dacă utilizatorul apasă "Creează cont"
   goToRegister() {
     this.router.navigate(['/register']);
   }

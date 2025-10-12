@@ -1,8 +1,6 @@
 <div class="login-container">
   <header class="header">
-    <div class="logo"> <a routerLink="/dashboard">
-    <img src="assets/logo.png" alt="OffiSeat Logo">
-  </a></div>
+    <div class="logo">LOGO</div>
   </header>
 
   <main class="main">
@@ -18,23 +16,47 @@
       <div class="card">
         <h3>Autentificare</h3>
 
-       <form (ngSubmit)="onLogin()">
-  <label>Utilizator</label>
-  <input type="email" name="email" required placeholder="nume@email.com" />
+        <form (ngSubmit)="onLogin()">
+          <label for="email">Utilizator</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            required
+            placeholder="nume@email.com"
+            [(ngModel)]="emailModel"
+          />
 
-  <label>Parolă</label>
-  <input type="password" name="password" required placeholder="Parola ta" />
+          <label for="password">Parolă</label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            required
+            placeholder="Parola ta"
+            [(ngModel)]="passwordModel"
+          />
 
-  <button type="submit" class="btn-primary">Intră în cont</button>
+          <button type="submit" class="btn-primary" [disabled]="loading">
+            {{ loading ? 'Se conectează...' : 'Intră în cont' }}
+          </button>
 
-  <a href="#" class="forgot">Ai uitat parola?</a>
+          <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
+          <div class="divider">
+            <span>–––––––– Sau ––––––––</span>
+          </div>
 
-  <div class="divider">
-    <span>–––––––– Sau ––––––––</span>
-  </div>
-
-  <button type="button" class="btn-secondary" (click)="goToRegister()">Creează cont</button>
-</form>
+          <button
+            type="button"
+            class="btn-secondary"
+            (click)="goToRegister()"
+            [disabled]="loading"
+          >
+            Creează cont
+          </button>
+        </form>
       </div>
     </div>
   </main>

@@ -15,6 +15,8 @@ import { BookRoomComponent } from './pages/book-room/book-room.component';
 import { TrafficComponent } from './pages/traffic/traffic.component';
 import { WeatherComponent } from './pages/weather/weather.component';
 import { HomeComponent } from './pages/home/home.component';
+import { FormsModule } from '@angular/forms';
+
 
 export const routes: Routes = [
   // 🔹 Pagini publice

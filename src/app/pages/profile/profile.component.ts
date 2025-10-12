@@ -10,15 +10,18 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent {
-  user = {
-    name: 'Employee User',
-    email: 'employee@example.com',
-    role: 'Employee'
-  };
+  user: { name: string; email: string; role: string } | null = null;
+
+  constructor() {
+    // load user from localStorage
+    const savedUser = localStorage.getItem('user');
+    if (savedUser) {
+      this.user = JSON.parse(savedUser);
+    }
+  }
 
   // ✅ Metodă pentru inițială
   get userInitial(): string {
-    // Dacă user-ul are nume, ia prima literă mare; altfel afișează “?”
     return this.user?.name?.charAt(0)?.toUpperCase() || '?';
   }
 }

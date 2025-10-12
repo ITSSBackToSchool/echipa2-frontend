@@ -1,77 +1,91 @@
 <div class="dashboard-container">
-  <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="logo"> <a routerLink="/home">
-    <img src="assets/logo.png" alt="OffiSeat Logo">
-  </a></div>
+    <div class="logo">
+      <a routerLink="/home"><img src="assets/logo.png" alt="OffiSeat Logo"></a>
+    </div>
     <nav class="menu">
-      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
-      <a routerLink="/reservations" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">My Reservations</a>
-      <a routerLink="/book-room" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Book a Room</a>
-      <a routerLink="/book-seat" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Book my seat</a>
-      <a routerLink="/traffic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Traffic</a>
-      <a routerLink="/weather" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Weather</a>
+      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/reservations" routerLinkActive="active">My Reservations</a>
+      <a routerLink="/book-room" routerLinkActive="active">Book a Room</a>
+      <a routerLink="/book-seat" routerLinkActive="active">Book my seat</a>
+      <a routerLink="/traffic" routerLinkActive="active">Traffic</a>
+      <a routerLink="/weather" routerLinkActive="active">Weather</a>
     </nav>
   </aside>
 
-  <!-- Main content -->
   <main class="content">
-    <h2>Book a Room</h2>
+    <div class="booking-card">
+      <div class="card-header">
+        <h2>Book a Meeting Room</h2>
+        <p>Select your preferred date, time, and room to make a reservation.</p>
+      </div>
 
-    <!-- 🔹 Select date -->
-    <div class="dates">
-      <button *ngFor="let d of dates"
-              [class.active]="d === selectedDate"
-              (click)="selectedDate = d">{{ d }}</button>
-    </div>
+      <div class="card-body">
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Floor</mat-label>
+            <mat-select [(ngModel)]="selectedFloorId" (selectionChange)="onFloorChange()">
+              <mat-option *ngFor="let floor of floors" [value]="floor.id">
+                {{ floor.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-    <!-- 🔹 Filters -->
-    <div class="filters">
-      <div>
-        <label>Select time</label>
-        <div class="time-range">
-          <input type="time" [(ngModel)]="selectedFrom"> -
-          <input type="time" [(ngModel)]="selectedTo">
+          <mat-form-field appearance="outline">
+            <mat-label>Room</mat-label>
+            <mat-select [(ngModel)]="selectedRoomId" (selectionChange)="onRoomChange()">
+               <mat-option *ngIf="rooms.length === 0" disabled>No rooms on this floor</mat-option>
+              <mat-option *ngFor="let room of rooms" [value]="room.id">
+                {{ room.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Select Date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="onTimeOrDateChange()">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <div class="time-input-group">
+            <label>Select Time</label>
+            <div class="time-inputs">
+              <input type="time" class="time-input" [(ngModel)]="selectedFrom" (change)="onTimeOrDateChange()">
+              <span>to</span>
+              <input type="time" class="time-input" [(ngModel)]="selectedTo" (change)="onTimeOrDateChange()">
+            </div>
+          </div>
         </div>
       </div>
 
-      <div>
-        <label>Select Etaj</label>
-        <select [(ngModel)]="selectedFloor">
-          <option>Etaj 1</option>
-          <option>Etaj 2</option>
-          <option>Etaj 3</option>
-        </select>
-      </div>
-
-      <div>
-        <label>Select Room</label>
-        <select [(ngModel)]="selectedRoom">
-          <option>Meeting Room A</option>
-          <option>Meeting Room B</option>
-          <option>Conference Room</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- 🔹 Search button -->
-    <button class="btn-search" (click)="search()">Search</button>
-
-    <!-- 🔹 Confirm Popup -->
-    <div class="popup" *ngIf="showConfirm">
-      <p>Are you sure you want to book {{ selectedRoom }} on {{ selectedDate }} from {{ selectedFrom }} to {{ selectedTo }}?</p>
-      <div class="popup-buttons">
-        <button (click)="confirmBooking()">OK</button>
-        <button (click)="closePopup()">Not OK</button>
-      </div>
-    </div>
-
-    <!-- 🔹 Success Popup -->
-    <div class="popup" *ngIf="showBooked">
-      <p>Room booked successfully ✅</p>
-      <div class="popup-buttons">
-        <button (click)="closePopup()">OK</button>
+      <div class="card-footer">
+        <button class="btn-book" (click)="search()" [disabled]="!selectedRoomId">
+          Book Now
+        </button>
       </div>
     </div>
   </main>
+</div>
+
+<div class="popup-overlay" *ngIf="showConfirm">
+  <div class="popup">
+    <h3>Confirm Reservation</h3>
+    <p>Book "<strong>{{ selectedRoomName }}</strong>" on <strong>{{ selectedDate | date:'fullDate' }}</strong> from <strong>{{ selectedFrom }}</strong> to <strong>{{ selectedTo }}</strong>?</p>
+    <div class="popup-buttons">
+      <button class="btn-secondary" (click)="closePopup()">Cancel</button>
+      <button class="btn-primary" (click)="confirmBooking()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<div class="popup-overlay" *ngIf="showBooked">
+  <div class="popup success">
+    <div class="success-icon">✓</div>
+    <h3>Booking Successful!</h3>
+    <p>Your reservation for "<strong>{{ createdReservation?.roomName }}</strong>" has been confirmed.</p>
+    <div class="popup-buttons">
+      <button class="btn-primary" (click)="closePopup()">Great!</button>
+    </div>
+  </div>
 </div>
