@@ -1,36 +1,36 @@
 <div class="dashboard-container">
-  <!-- Sidebar -->
   <aside class="sidebar">
-    <div class="logo"> <a routerLink="/home">
-    <img src="assets/logo.png" alt="OffiSeat Logo">
-  </a></div>
+    <div class="logo">
+      <a routerLink="/home"><img src="assets/logo.png" alt="OffiSeat Logo"></a>
+    </div>
     <nav class="menu">
-      <a routerLink="/dashboard" class="active">Dashboard</a>
-      <a routerLink="/reservations">My Reservations</a>
-      <a routerLink="/book-room">Book a Room</a>
-      <a routerLink="/book-seat">Book my seat</a>
-      <a routerLink="/traffic">Traffic</a>
-      <a routerLink="/weather">Weather</a>
+      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/reservations" routerLinkActive="active">My Reservations</a>
+      <a routerLink="/book-room" routerLinkActive="active">Book a Room</a>
+      <a routerLink="/book-seat" routerLinkActive="active">Book my seat</a>
+      <a routerLink="/traffic" routerLinkActive="active">Traffic</a>
+      <a routerLink="/weather" routerLinkActive="active">Weather</a>
     </nav>
   </aside>
 
-  <!-- Main content -->
   <main class="content">
     <header class="header">
       <h2>Dashboard</h2>
-      <div class="date-range">22–26 Sept</div>
     </header>
 
-    <section class="reservations">
+      <section class="reservations">
       <h3>Your Reservations</h3>
+      <div *ngIf="reservations.length === 0" class="no-data">No reservations yet.</div>
+
       <div class="reservation-card" *ngFor="let res of reservations">
-        <strong>{{ res.date }}</strong>
+        <strong>{{ res.reservationDate | date:'dd MMM' }}</strong>
         <div class="details">{{ res.details }}</div>
+        <div class="time">{{ res.time }}</div>
+        <div class="status" [class.confirmed]="res.status === 'CONFIRMED'">{{ res.status }}</div>
       </div>
     </section>
 
     <section class="bottom-section">
-      <!-- Office presence -->
       <div class="presence">
         <div class="title">Your Office Presence</div>
         <div class="metrics">
@@ -49,13 +49,11 @@
         </div>
       </div>
 
-      <!-- Weather -->
       <div class="weather">
-        <div class="title">23 Sep →</div>
+        <div class="title">{{ weather.city }}</div>
         <div class="card">
-          <div class="city">{{ weather.city }}</div>
           <div class="icon">☀️</div>
-          <div class="temp">{{ weather.temp }}</div>
+          <div class="temp">{{ weather.temp }}°C</div>
           <div class="condition">{{ weather.condition }}</div>
         </div>
       </div>

@@ -18,8 +18,10 @@ import { HomeComponent } from './pages/home/home.component';
 import { FormsModule } from '@angular/forms';
 
 
+
 export const routes: Routes = [
   // 🔹 Pagini publice
+  { path: 'traffic', component: TrafficComponent },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
