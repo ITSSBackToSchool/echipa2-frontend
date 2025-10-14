@@ -5,51 +5,51 @@
     <img src="assets/logo.png" alt="OffiSeat Logo">
   </a></div>
     <nav class="menu">
-      <a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Dashboard</a>
-      <a routerLink="/reservations" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">My Reservations</a>
-      <a routerLink="/book-room" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Book a Room</a>
-      <a routerLink="/book-seat" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Book my seat</a>
-      <a routerLink="/traffic" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Traffic</a>
-      <a routerLink="/weather" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Weather</a>
+      <a routerLink="/dashboard" >Dashboard</a>
+      <a routerLink="/reservations" class="active">My Reservations</a>
+      <a routerLink="/book-room">Book a Room</a>
+      <a routerLink="/book-seat">Book my seat</a>
+      <a routerLink="/traffic">Traffic</a>
+      <a routerLink="/weather">Weather</a>
     </nav>
   </aside>
 
   <!-- Main content -->
   <main class="content">
-    <h2>Traffic</h2>
-
-    <div class="inputs">
-      <div>
-        <label>Select starting time</label>
-        <div class="time">
-          <input type="time" [(ngModel)]="fromTime"> -
-          <input type="time" [(ngModel)]="toTime">
-        </div>
+    <div class="traffic-card">
+      <div class="card-header">
+        <h2>Traffic</h2>
+        <p>Calculate your route and estimate travel time.</p>
       </div>
 
-      <div>
-        <label>Select distance</label>
-        <div class="distance">
-          <input placeholder="Home address" [(ngModel)]="homeAddress">
-          <input placeholder="Office address" [(ngModel)]="officeAddress">
+      <div class="card-body">
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Enter Origin</mat-label>
+            <input matInput [(ngModel)]="origin" placeholder="Start location">
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Enter Destination</mat-label>
+            <input matInput [(ngModel)]="destination" placeholder="End location">
+          </mat-form-field>
         </div>
-      </div>
-    </div>
 
-    <button class="ok-btn" (click)="openPopup()">OK</button>
+        <button mat-raised-button color="primary" (click)="calculate()">Calculate Route</button>
 
-    <div class="traffic-box">
-      <p>{{ result || 'traffic API' }}</p>
-    </div>
+        <div *ngIf="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </div>
 
-    <button class="calculate-btn" (click)="calculate()">Calculate</button>
+        <div *ngIf="routeDistance && routeDuration" class="results">
+          <p><strong>Total distance:</strong> {{ routeDistance }}</p>
+          <p><strong>Estimated time:</strong> {{ routeDuration }}</p>
 
-    <!-- Popup -->
-    <div class="popup" *ngIf="showPopup">
-      <p>Confirm travel from "{{homeAddress}}" to "{{officeAddress}}"?</p>
-      <div class="popup-buttons">
-        <button (click)="calculate(); closePopup()">OK</button>
-        <button (click)="closePopup()">Cancel</button>
+          <h4>Steps:</h4>
+          <ol>
+            <li *ngFor="let step of routeSteps" [innerHTML]="step"></li>
+          </ol>
+        </div>
       </div>
     </div>
   </main>

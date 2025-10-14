@@ -1,38 +1,58 @@
 import { Component } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-traffic',
-  standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, RouterLinkActive],
   templateUrl: './traffic.component.html',
-  styleUrls: ['./traffic.component.css']
+  styleUrls: ['./traffic.component.css'],
+  standalone: true,
+  imports: [CommonModule, FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule ]
 })
 export class TrafficComponent {
-  fromTime = '';
-  toTime = '';
-  homeAddress = '';
-  officeAddress = '';
-  distanceKm = '';
-  result = '';
+  origin = 'jilavei 34';
+  destination = 'pipera';
+  routeDistance = '';
+  routeDuration = '';
+  routeSteps: string[] = [];
+  errorMessage = '';
 
-  showPopup = false;
+  constructor(private http: HttpClient) {}
 
   calculate() {
-    if (!this.homeAddress || !this.officeAddress) {
-      this.result = 'Please enter both addresses!';
-      return;
-    }
-    this.result = 'Estimated traffic: Moderate (20 min delay).';
-  }
+    this.errorMessage = '';
+    this.routeDistance = '';
+    this.routeDuration = '';
+    this.routeSteps = [];
 
-  openPopup() {
-    this.showPopup = true;
-  }
+    const url = `http://localhost:8080/api/traffic?origin=${this.origin}&destination=${this.destination}`;
 
-  closePopup() {
-    this.showPopup = false;
+    this.http.get<any>(url).subscribe({
+      next: (data) => {
+        if (data && data.distanceKm != null) {
+          this.routeDistance = `${data.distanceKm} km`;
+          this.routeDuration = `${data.trafficDurationMin} mins`;
+          this.routeSteps = [
+            `From ${data.start} to ${data.end}`,
+            `Traffic level: ${data.trafficLevel}`,
+            `Delay: ${data.trafficDelayMin} mins`
+          ];
+        } else {
+          this.errorMessage = 'No routes found.';
+        }
+      },
+      error: (err: HttpErrorResponse) => {
+        this.errorMessage = 'Error fetching traffic data.';
+        console.error(err);
+      }
+    });
   }
 }
