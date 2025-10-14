@@ -19,21 +19,20 @@ import { FormsModule } from '@angular/forms';
 
 
 export const routes: Routes = [
-  // 🔹 Pagini publice
+  
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
 
-  // 🔹 Layout principal (pagini private)
   {
     path: '',
     component: MainLayoutComponent,
     canActivate: [authGuard],
     children: [
-      // 👇 Prima pagină după autentificare → HOME
+     
       { path: 'home', component: HomeComponent },
 
-      // 🔹 Dashboard & altele (nu mai dublăm rutele)
+     
       { path: 'dashboard', component: DashboardComponent },
       { path: 'reservations', component: ReservationsListComponent },
       { path: 'reservations/new', component: ReservationFormComponent },
@@ -52,6 +51,7 @@ export const routes: Routes = [
     ]
   },
 
-  // 🔹 fallback
+ 
   { path: '**', redirectTo: 'login' }
 ];
+

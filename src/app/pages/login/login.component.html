@@ -1,6 +1,8 @@
-<div class="login-container">
+<!-- <div class="login-container">
   <header class="header">
-    <div class="logo">LOGO</div>
+    <div class="logo">
+      <a routerLink="/home"><img src="assets/logo.png" alt="OffiSeat Logo"></a>
+    </div>
   </header>
 
   <main class="main">
@@ -61,5 +63,83 @@
     </div>
   </main>
 
-  <footer class="footer">Footer</footer>
+  <footer class="footer">@ 2025 OfiiSeat. All rights reserved.</footer>
+</div> -->
+<div class="login-container">
+  <!-- 🔹 HEADER -->
+  <header class="header">
+    <div class="logo">
+      <a routerLink="/home">
+        <img src="assets/logo.png" alt="OffiSeat Logo" />
+      </a>
+    </div>
+  </header>
+
+  <!-- 🔹 MAIN -->
+  <main class="main">
+    <div class="left-side">
+      <h2>Rezervă-ți locul la birou în câteva secunde!</h2>
+      <p>
+        Simplifică-ți zilele de lucru. Alege biroul dorit, vezi disponibilitatea
+        în timp real și lucrează acolo unde ai nevoie.
+      </p>
+    </div>
+
+    <div class="right-side">
+      <div class="card">
+        <h3>Autentificare</h3>
+
+        <!-- 🟢 Formular care duce direct pe dashboard -->
+        <form (ngSubmit)="onLogin()" novalidate>
+          <label for="email">Utilizator</label>
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="nume@email.com"
+            [(ngModel)]="emailModel"
+          />
+
+          <label for="password">Parolă</label>
+          <input
+            id="password"
+            type="password"
+            name="password"
+            placeholder="Parola ta"
+            [(ngModel)]="passwordModel"
+          />
+
+          <!-- Butonul principal -->
+          <button type="submit" class="btn-primary" [disabled]="loading">
+            {{ loading ? 'Se conectează...' : 'Intră în cont' }}
+          </button>
+
+          <!-- Afișare erori (nu va apărea, dar o păstrăm pentru design) -->
+          <div *ngIf="errorMessage" class="error-message">
+            {{ errorMessage }}
+          </div>
+
+          <!-- Separator -->
+          <div class="divider">
+            <span>–––––––– Sau ––––––––</span>
+          </div>
+
+          <!-- Buton creare cont -->
+          <button
+            type="button"
+            class="btn-secondary"
+            (click)="goToRegister()"
+            [disabled]="loading"
+          >
+            Creează cont
+          </button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <!-- 🔹 FOOTER -->
+  <footer class="footer">
+    © 2025 OffiSeat. All rights reserved.
+  </footer>
 </div>
