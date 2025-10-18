@@ -29,15 +29,15 @@
         <strong>{{ res.reservationDate | date: 'dd MMM' }}</strong>
         <div class="details">{{ res.details }}</div>
         <div class="time">{{ res.time }}</div>
-        <div
+        <!-- <div
           class="status"
           [ngClass]="{
             confirmed: res.status === 'CONFIRMED',
             pending: res.status === 'PENDING'
           }"
         >
-          {{ res.status }}
-        </div>
+          {{ res.status }} -->
+       
       </div>
     </section>
 

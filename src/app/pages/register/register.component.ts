@@ -23,13 +23,13 @@ export class RegisterComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   register() {
-    // 🔹 Check all fields are filled
+    
     if (!this.userName || !this.email || !this.password || !this.confirmPassword) {
       this.errorMessage = 'Te rugăm să completezi toate câmpurile.';
       return;
     }
 
-    // 🔹 Check passwords match
+
     if (this.password !== this.confirmPassword) {
       this.errorMessage = 'Parolele nu coincid.';
       return;
@@ -38,15 +38,15 @@ export class RegisterComponent {
     this.loading = true;
     this.errorMessage = '';
 
-    // 🔹 Call AuthService register
+
     this.authService.register(this.userName, this.email, this.password)
       .subscribe({
         next: (response) => {
           console.log('Registration successful', response);
           this.loading = false;
 
-          // 🔹 Redirect to dashboard after registration
-          this.router.navigate(['/dashboard']);
+     
+          this.router.navigate(['/login']);
         },
         error: (err) => {
           this.loading = false;

@@ -1,55 +1,49 @@
 <div class="dashboard-container">
-  <!-- Sidebar -->
+  <!-- Sidebar fix -->
   <aside class="sidebar">
-    <div class="logo"> <a routerLink="/home">
-    <img src="assets/logo.png" alt="OffiSeat Logo">
-  </a></div>
+    <div class="logo">
+      <a routerLink="/home"><img src="assets/logo.png" alt="OffiSeat Logo"></a>
+    </div>
+
     <nav class="menu">
-      <a routerLink="/dashboard" >Dashboard</a>
-      <a routerLink="/reservations">My Reservations</a>
-      <a routerLink="/book-room">Book a Room</a>
-      <a routerLink="/book-seat">Book my seat</a>
+      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
+      <a routerLink="/reservations" routerLinkActive="active">My Reservations</a>
+      <a routerLink="/book-room" routerLinkActive="active">Book a Room</a>
+      <a routerLink="/book-seat" routerLinkActive="active">Book my seat</a>
       <a routerLink="/traffic" class="active">Traffic</a>
-      <a routerLink="/weather">Weather</a>
+      <a routerLink="/weather" routerLinkActive="active">Weather</a>
     </nav>
   </aside>
 
-  <!-- Main content -->
+  <!-- Conținut principal -->
   <main class="content">
     <div class="traffic-card">
-      <div class="card-header">
-        <h2>Traffic</h2>
-        <p>Calculate your route and estimate travel time.</p>
+      <h2>Traffic</h2>
+      <p>Calculate your route and estimate travel time.</p>
+
+      <div class="form-grid">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter Origin</mat-label>
+          <input matInput [(ngModel)]="origin" placeholder="Start location">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Enter Destination</mat-label>
+          <input matInput [(ngModel)]="destination" placeholder="End location">
+        </mat-form-field>
       </div>
 
-      <div class="card-body">
-        <div class="form-grid">
-          <mat-form-field appearance="outline">
-            <mat-label>Enter Origin</mat-label>
-            <input matInput [(ngModel)]="origin" placeholder="Start location">
-          </mat-form-field>
+      <button mat-raised-button color="primary" (click)="calculate()">Calculate Route</button>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Enter Destination</mat-label>
-            <input matInput [(ngModel)]="destination" placeholder="End location">
-          </mat-form-field>
-        </div>
+      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
 
-        <button mat-raised-button color="primary" (click)="calculate()">Calculate Route</button>
-
-        <div *ngIf="errorMessage" class="error-message">
-          {{ errorMessage }}
-        </div>
-
-        <div *ngIf="routeDistance && routeDuration" class="results">
-          <p><strong>Total distance:</strong> {{ routeDistance }}</p>
-          <p><strong>Estimated time:</strong> {{ routeDuration }}</p>
-
-          <h4>Steps:</h4>
-          <ol>
-            <li *ngFor="let step of routeSteps" [innerHTML]="step"></li>
-          </ol>
-        </div>
+      <div *ngIf="routeDistance && routeDuration" class="results">
+        <p><strong>Total distance:</strong> {{ routeDistance }}</p>
+        <p><strong>Estimated time:</strong> {{ routeDuration }}</p>
+        <h4>Steps:</h4>
+        <ol>
+          <li *ngFor="let step of routeSteps" [innerHTML]="step"></li>
+        </ol>
       </div>
     </div>
   </main>

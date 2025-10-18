@@ -22,16 +22,7 @@
   flex-direction: column;
   align-items: center;
   padding-top: 20px;
-}
-
-.sidebar {
-  width: 220px;
-  background-color: #1e1e2f;
-  color: #fff;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding-top: 20px;
+  cursor:pointer;
 }
 
 .sidebar .logo img {
@@ -45,7 +36,10 @@
   width: 100%;
   align-items: center;
 }
-
+.sidebar a {
+  pointer-events: auto !important;
+  cursor: pointer !important;
+}
 .sidebar .menu a {
   color: #ddd;
   text-decoration: none;
@@ -69,6 +63,8 @@
 .content {
   flex: 1;
   padding: 24px;
+    z-index: 1;
+  overflow-y: auto;
 }
 
 /* Traffic page styles */
@@ -118,7 +114,7 @@ input {
 }
 
 .popup {
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -147,4 +143,11 @@ input {
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+}
+.cdk-overlay-container,
+.cdk-overlay-pane,
+.mat-mdc-form-field,
+.mat-mdc-form-field-infix {
+  pointer-events: auto !important;
+  z-index: auto !important;
 }

@@ -80,6 +80,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { ReservationService, UserReservation } from '../../core/services/reservation.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -89,10 +90,9 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  reservations = [
-    { reservationDate: new Date(2025, 8, 23), time: '09:00', details: 'Meeting Room A', status: 'CONFIRMED' },
-    { reservationDate: new Date(2025, 8, 25), time: '13:30', details: 'Desk 14 – Open Space', status: 'PENDING' }
-  ];
+
+  reservations: UserReservation[] = [];
+  weather: any = null;
 
   officePresence = {
     month: 12,
@@ -100,31 +100,66 @@ export class DashboardComponent implements OnInit {
     streak: 7
   };
 
-  weather: any = null;
+  userId: number = 0;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private reservationService: ReservationService,
+    private http: HttpClient
+  ) {}
 
   ngOnInit(): void {
-    this.loadWeather();
+    // 🔹 Ia userId-ul salvat după login
+    const storedId = localStorage.getItem('userId');
+    this.userId = storedId ? Number(storedId) : 0;
+
+    if (this.userId) {
+      this.loadUserReservations();
+    }
   }
 
-  loadWeather() {
-  if (this.reservations.length === 0) return;
+  /**
+   * 🔹 Încarcă rezervările utilizatorului curent
+   */
+  private loadUserReservations(): void {
+    this.reservationService.getUserReservations(this.userId).subscribe({
+      next: (data) => {
+        this.reservations = data;
+        console.log('Rezervări încărcate:', data);
 
-  const city = this.reservations[0].details;
-  const apiKey = ''; 
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+        // După ce avem rezervările, încarcă vremea
+        if (this.reservations.length > 0) {
+          this.loadWeatherForReservation(this.reservations[0]);
+        }
+      },
+      error: (err) => {
+        console.error('Eroare la obținerea rezervărilor:', err);
+      }
+    });
+  }
 
-  this.http.get(url).subscribe({
-    next: (data: any) => {
-      this.weather = {
-        city: data.name,
-        currentTemp: Math.round(data.main.temp),
-        condition: data.weather[0].main,
-        icon: data.weather[0].icon
-      };
-    },
-    error: (err) => console.error('Eroare la preluarea vremii:', err)
-  });
-}
+  /**
+   * 🔹 Încarcă vremea pentru orașul rezervării (sau un fallback default)
+   */
+  private loadWeatherForReservation(reservation: UserReservation): void {
+    // 🔹 presupunem că ai un câmp 'city' sau 'location' în rezervare
+    const city = (reservation as any).city || 'Bucharest';
+
+    const apiKey = '👉 AICI_PUI_API_KEY_DE_LA_OpenWeather 👈';
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+    this.http.get(url).subscribe({
+      next: (data: any) => {
+        this.weather = {
+          city: data.name,
+          currentTemp: Math.round(data.main.temp),
+          condition: data.weather[0].main,
+          icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
+        };
+        console.log('Vreme încărcată:', this.weather);
+      },
+      error: (err) => {
+        console.error('Eroare la preluarea vremii:', err);
+      }
+    });
+  }
 }
