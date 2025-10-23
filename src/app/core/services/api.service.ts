@@ -5,11 +5,11 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class ApiService {
-  private base = 'http://localhost:3000'; // json-server
+  private base = 'http://localhost:3000';
 
   constructor(private http: HttpClient) {}
 
-  // Reservations
+
   getReservations(): Observable<Reservation[]> {
     return this.http.get<Reservation[]>(`${this.base}/reservations?_sort=date,startTime`);
   }

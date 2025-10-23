@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -6,18 +6,28 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
+import { RouterLink, RouterLinkActive } from '@angular/router';
+import { SidebarService } from '../../core/services/sidebar.service';
+import { ProfileSectionComponent } from '../../shared/profile-section/profile-section.component';
 
 @Component({
   selector: 'app-traffic',
   templateUrl: './traffic.component.html',
   styleUrls: ['./traffic.component.css'],
   standalone: true,
-  imports: [CommonModule, FormsModule,
+  imports: [
+    CommonModule, 
+    FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule ]
+    MatSelectModule,
+    MatButtonModule,
+    RouterLink,
+    RouterLinkActive,
+    ProfileSectionComponent
+  ]
 })
-export class TrafficComponent {
+export class TrafficComponent implements OnInit {
   origin = 'jilavei 34';
   destination = 'pipera';
   routeDistance = '';
@@ -25,7 +35,10 @@ export class TrafficComponent {
   routeSteps: string[] = [];
   errorMessage = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, public sidebarService: SidebarService) {}
+
+  ngOnInit() {
+  }
 
   calculate() {
     this.errorMessage = '';
@@ -54,5 +67,21 @@ export class TrafficComponent {
         console.error(err);
       }
     });
+  }
+
+  /**
+   * Toggle sidebar
+   */
+  toggleSidebar() {
+    this.sidebarService.toggle();
+  }
+
+  /**
+   * Logout user
+   */
+  logout(): void {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    window.location.href = '/login';
   }
 }

@@ -1,29 +1,111 @@
 <div class="dashboard-container">
-  <aside class="sidebar">
-    <div class="logo">
-      <a routerLink="/home"><img src="assets/logo.png" alt="OffiSeat Logo"></a>
+  
+  <aside class="sidebar" [class.collapsed]="sidebarService.collapsed()">
+    
+    <div class="sidebar-header">
+      <div class="logo" *ngIf="!sidebarService.collapsed()">
+        <img src="assets/logo.png" alt="OffiSeat Logo" />
+        <div class="logo-title">OffiSeat</div>
+      </div>
+      <button class="sidebar-toggle" (click)="toggleSidebar()">
+        <span *ngIf="!sidebarService.collapsed()">‹</span>
+        <span *ngIf="sidebarService.collapsed()">›</span>
+      </button>
     </div>
+
+    
     <nav class="menu">
-      <a routerLink="/dashboard" routerLinkActive="active">Dashboard</a>
-      <a routerLink="/reservations" routerLinkActive="active">My Reservations</a>
-      <a routerLink="/book-room" routerLinkActive="active">Book a Room</a>
-      <a routerLink="/book-seat" routerLinkActive="active">Book my seat</a>
-      <a routerLink="/traffic" routerLinkActive="active">Traffic</a>
-      <a routerLink="/weather" routerLinkActive="active">Weather</a>
+      <a routerLink="/dashboard" routerLinkActive="active" class="menu-item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+          <polyline points="9 22 9 12 15 12 15 22"></polyline>
+        </svg>
+        <span class="label" *ngIf="!sidebarService.collapsed()">Dashboard</span>
+      </a>
+      
+      <a routerLink="/book-seat" routerLinkActive="active" class="menu-item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+        <span class="label" *ngIf="!sidebarService.collapsed()">Book my seat</span>
+      </a>
+      
+      <a routerLink="/book-room" routerLinkActive="active" class="menu-item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <span class="label" *ngIf="!sidebarService.collapsed()">Book a Room</span>
+      </a>
+      
+      <a routerLink="/reservations" routerLinkActive="active" class="menu-item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 11l3 3L22 4"></path>
+          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+        </svg>
+        <span class="label" *ngIf="!sidebarService.collapsed()">My Reservations</span>
+      </a>
+      
+      <a routerLink="/traffic" routerLinkActive="active" class="menu-item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+        </svg>
+        <span class="label" *ngIf="!sidebarService.collapsed()">Traffic</span>
+      </a>
+      
+      <a routerLink="/weather" routerLinkActive="active" class="menu-item">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+        </svg>
+        <span class="label" *ngIf="!sidebarService.collapsed()">Weather</span>
+      </a>
     </nav>
+
+    
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">
+        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+          <polyline points="16 17 21 12 16 7"></polyline>
+          <line x1="21" y1="12" x2="9" y2="12"></line>
+        </svg>
+        <span class="label" *ngIf="!sidebarService.collapsed()">Logout</span>
+      </button>
+    </div>
   </aside>
 
+  
   <main class="content">
-    <div class="booking-card">
-      <div class="card-header">
-        <h2>Book a Meeting Room</h2>
-        <p>Select your preferred date, time, and room to make a reservation.</p>
+    
+    <div class="content-header">
+      <div class="header-title">
+        <h1>Book a Room</h1>
+        <p class="header-subtitle">Select your preferred date, time, and room to make a reservation.</p>
       </div>
+      <app-profile-section></app-profile-section>
+    </div>
+    <div class="header-line"></div>
+    <div class="booking-card">
 
       <div class="card-body">
+        
         <div class="form-grid">
           <mat-form-field appearance="outline">
-            <mat-label>Floor</mat-label>
+            <mat-label>Select Tower (Building)</mat-label>
+            <mat-select [(ngModel)]="selectedBuildingId" (selectionChange)="onBuildingChange()">
+              <mat-option *ngFor="let building of buildings" [value]="building.id">
+                {{ building.name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Select Floor</mat-label>
             <mat-select [(ngModel)]="selectedFloorId" (selectionChange)="onFloorChange()">
               <mat-option *ngFor="let floor of floors" [value]="floor.id">
                 {{ floor.name }}
@@ -32,38 +114,105 @@
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Room</mat-label>
-            <mat-select [(ngModel)]="selectedRoomId" (selectionChange)="onRoomChange()">
-               <mat-option *ngIf="rooms.length === 0" disabled>No rooms on this floor</mat-option>
-              <mat-option *ngFor="let room of rooms" [value]="room.id">
-                {{ room.name }}
+            <mat-label>Date</mat-label>
+            <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="onTimeOrDateChange()" [min]="minDate">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker [startAt]="minDate"></mat-datepicker>
+          </mat-form-field>
+
+        </div>
+
+        
+        <div class="time-selection-section">
+          <h3 class="time-section-title">Select Time Slot</h3>
+          <div class="time-slots-grid">
+            <button 
+              *ngFor="let slot of timeSlots" 
+              class="time-slot-button"
+              [class.selected]="selectedTimeSlot === slot.value"
+              (click)="selectTimeSlot(slot.value)">
+              {{ slot.label }}
+            </button>
+          </div>
+        </div>
+
+        
+        <div class="form-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Start Time</mat-label>
+            <mat-select [(ngModel)]="selectedFrom" (selectionChange)="onTimeOrDateChange()">
+              <mat-option *ngFor="let time of startTimeOptions" [value]="time.value">
+                {{ time.label }}
               </mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field appearance="outline">
-            <mat-label>Select Date</mat-label>
-            <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate" (dateChange)="onTimeOrDateChange()">
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
+            <mat-label>End Time</mat-label>
+            <mat-select [(ngModel)]="selectedTo" (selectionChange)="onTimeOrDateChange()">
+              <mat-option *ngFor="let time of endTimeOptions" [value]="time.value">
+                {{ time.label }}
+              </mat-option>
+            </mat-select>
           </mat-form-field>
+        </div>
+      </div>
+    </div>
 
-          <div class="time-input-group">
-            <label>Select Time</label>
-            <div class="time-inputs">
-              <input type="time" class="time-input" [(ngModel)]="selectedFrom" (change)="onTimeOrDateChange()">
-              <span>to</span>
-              <input type="time" class="time-input" [(ngModel)]="selectedTo" (change)="onTimeOrDateChange()">
+    
+    <div class="rooms-container" *ngIf="rooms.length > 0; else noRooms">
+      <h2 class="rooms-section-title">Rooms</h2>
+      <div class="rooms-grid">
+        <div class="room-card" 
+             *ngFor="let room of rooms" 
+             [class.selected]="selectedRoomId === room.id"
+             [class.unavailable]="room.isAvailable === false"
+             (click)="selectRoom(room.id)">
+          <div class="room-header">
+            <h4 class="room-name">{{ room.name }}</h4>
+            <span class="status-badge" 
+                  [class.status-available]="room.isAvailable === true"
+                  [class.status-unavailable]="room.isAvailable === false">
+              {{ room.isAvailable === true ? 'Available' : room.isAvailable === false ? 'Unavailable' : '' }}
+            </span>
+          </div>
+          <div class="room-capacity">
+            <svg class="capacity-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>Up to {{ room.seatCount || 0 }} People</span>
+          </div>
+          <div class="room-image">
+            <div class="image-placeholder">
+              
             </div>
           </div>
         </div>
       </div>
+    </div>
 
-      <div class="card-footer">
-        <button class="btn-book" (click)="search()" [disabled]="!selectedRoomId">
-          Book Now
-        </button>
+    
+    <ng-template #noRooms>
+      <div class="no-rooms-message">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <h3>No Rooms Available</h3>
+        <p>Please select a different date, time, or location.</p>
       </div>
+    </ng-template>
+
+    
+    <div class="booking-actions">
+      <button class="btn-book" (click)="search()" [disabled]="!selectedRoomId">
+        Book Room
+      </button>
     </div>
   </main>
 </div>
@@ -71,7 +220,7 @@
 <div class="popup-overlay" *ngIf="showConfirm">
   <div class="popup">
     <h3>Confirm Reservation</h3>
-    <p>Book "<strong>{{ selectedRoomName }}</strong>" on <strong>{{ selectedDate | date:'fullDate' }}</strong> from <strong>{{ selectedFrom }}</strong> to <strong>{{ selectedTo }}</strong>?</p>
+    <p>Are you sure you want to book <strong>{{ selectedRoomName }}</strong> on <strong>{{ selectedDate | date:'fullDate' }}</strong> from <strong>{{ selectedFrom }}</strong> to <strong>{{ selectedTo }}</strong>?</p>
     <div class="popup-buttons">
       <button class="btn-secondary" (click)="closePopup()">Cancel</button>
       <button class="btn-primary" (click)="confirmBooking()">Confirm</button>
@@ -83,7 +232,7 @@
   <div class="popup success">
     <div class="success-icon">✓</div>
     <h3>Booking Successful!</h3>
-    <p>Your reservation for "<strong>{{ createdReservation?.roomName }}</strong>" has been confirmed.</p>
+    <p>Your <strong>Room reservation {{ selectedRoomName }} at {{ selectedBuildingName }}, {{ selectedFloorName }}</strong> has been confirmed.</p>
     <div class="popup-buttons">
       <button class="btn-primary" (click)="closePopup()">Great!</button>
     </div>

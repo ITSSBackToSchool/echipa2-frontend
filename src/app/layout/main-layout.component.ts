@@ -1,12 +1,12 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { AuthService } from '../core/services/auth.service';
 
 @Component({
   selector: 'app-main-layout',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive, RouterOutlet],
+  imports: [CommonModule, RouterOutlet],
   templateUrl: './main-layout.component.html',
   styleUrls: ['./main-layout.component.css']
 })
@@ -17,6 +17,7 @@ export class MainLayoutComponent {
 
   constructor(private auth: AuthService) {
     this.checkViewport();
+    this.restoreSidebarState();
   }
 
   @HostListener('window:resize', [])
@@ -27,6 +28,13 @@ export class MainLayoutComponent {
   private checkViewport() {
     this.isMobile = window.innerWidth < 900;
     if (this.isMobile) this.sidebarOpen = false;
+  }
+
+  private restoreSidebarState() {
+    const savedState = localStorage.getItem('sidebarCollapsed');
+    if (savedState !== null) {
+      this.sidebarOpen = savedState !== 'true';
+    }
   }
 
   get user() {
@@ -46,11 +54,11 @@ export class MainLayoutComponent {
 
   navAdmin = [
     ...this.navEmployee,
-    { label: 'Analytics', path: '/analytics' },
   ];
 
   toggleSidebar() {
     this.sidebarOpen = !this.sidebarOpen;
+    localStorage.setItem('sidebarCollapsed', String(!this.sidebarOpen));
   }
 
   toggleDropdown() {

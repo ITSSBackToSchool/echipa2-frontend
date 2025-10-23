@@ -1,160 +1,155 @@
-.container {
+.register-container {
   display: flex;
-  flex-direction: column;
-  height: 100vh;
-  background: #f5f5f5;
-  font-family: Arial, sans-serif;
-}
-.page-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100%;
-  background-color: #f6f8f9;
-}
-
-
-.header {
-  background: #333;
-  color: #fff;
-  padding: 10px 30px;
-  font-size: 18px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.login-container {
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background: linear-gradient(135deg, #e8f3f1, #f6f8f9);
+  min-height: 100vh;
+  background: #f8f9fa;
+  padding: 20px;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-.logo {
-  margin-bottom: 30px;
-  text-align: center;
-}
-
-.logo img {
-  width: 180px;        /* ✅ mărime echilibrată */
-  height: auto;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-}
-
-.logo img:hover {
-  transform: scale(1.05);
-}
-
-.card {
+.form-card {
   background: white;
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 40px;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-  width: 350px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 400px;
+  border: 1px solid #e5e7eb;
+}
+
+.brand-header {
   text-align: center;
+  margin-bottom: 32px;
 }
 
-.main-content {
-  flex: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 50px 100px;
-}
-
-.left {
-  width: 45%;
-}
-
-.left h2 {
-  font-size: 22px;
-  font-weight: 700;
-  margin-bottom: 10px;
-  color: #222;
-}
-
-.left p {
-  color: #555;
-}
-
-.right {
-  width: 45%;
-  display: flex;
-  justify-content: center;
-}
-
-.card {
-  background: #fafafa;
-  padding: 30px 40px;
+.brand-logo {
+  width: 48px;
+  height: 48px;
+  background: #0E7479;
+  color: white;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  width: 100%;
-  max-width: 380px;
-}
-
-h3 {
-  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-weight: 700;
+  font-size: 18px;
+  margin: 0 auto 16px auto;
 }
 
-label {
-  display: block;
-  margin-bottom: 5px;
+.brand-header h1 {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 0 0 8px 0;
+}
+
+.brand-header p {
+  color: #6b7280;
+  font-size: 14px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group label {
+  font-size: 14px;
   font-weight: 500;
+  color: #374151;
 }
 
-input {
+.input-wrapper {
+  position: relative;
+}
+
+.input-wrapper input {
   width: 100%;
-  padding: 10px;
-  margin-bottom: 15px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  outline: none;
+  padding: 12px 16px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  background: white;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
-input:focus {
-  border-color: #2e7b7f;
+.input-wrapper input:focus {
+  outline: none;
+  border-color: #0E7479;
+  box-shadow: 0 0 0 3px rgba(14, 116, 121, 0.1);
 }
 
 .btn-primary {
-  background: #2e7b7f;
+  background: #0E7479;
   color: white;
   border: none;
-  padding: 10px;
-  width: 100%;
-  border-radius: 6px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 10px;
+  transition: all 0.2s ease;
+  margin-top: 8px;
 }
 
-.btn-secondary {
-  background: #eee;
-  color: #333;
-  border: none;
-  padding: 10px;
-  width: 100%;
-  border-radius: 6px;
-  font-weight: 600;
-  cursor: pointer;
-  margin-top: 10px;
+.btn-primary:hover:not(:disabled) {
+  background: #0a5c60;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(14, 116, 121, 0.3);
 }
 
-.divider {
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.error-message {
+  background: #fef2f2;
+  color: #dc2626;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  border: 1px solid #fecaca;
+}
+
+.signin-link {
   text-align: center;
-  margin: 15px 0;
-  color: #999;
+  margin-top: 24px;
+  font-size: 14px;
+  color: #6b7280;
 }
 
-.footer {
-  background: #333;
-  color: white;
-  text-align: center;
-  padding: 10px;
+.signin-link a {
+  color: #0E7479;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 4px;
+}
+
+.signin-link a:hover {
+  text-decoration: underline;
+}
+
+
+@media (max-width: 480px) {
+  .form-card {
+    padding: 24px;
+    margin: 16px;
+  }
+  
+  .brand-header h1 {
+    font-size: 20px;
+  }
 }

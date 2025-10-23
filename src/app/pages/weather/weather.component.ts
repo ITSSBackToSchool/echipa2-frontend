@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router'; // <-- import RouterModule
+import { RouterModule } from '@angular/router';
 import { WeatherService } from '../../core/services/weather.service';
+import { SidebarService } from '../../core/services/sidebar.service';
+import { ProfileSectionComponent } from '../../shared/profile-section/profile-section.component';
 
 @Component({
   selector: 'app-weather',
@@ -10,17 +12,28 @@ import { WeatherService } from '../../core/services/weather.service';
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule, // <-- add this so routerLink works
+    RouterModule,
+    ProfileSectionComponent
   ],
   templateUrl: './weather.component.html',
   styleUrls: ['./weather.component.css']
 })
-export class WeatherComponent {
+export class WeatherComponent implements OnInit {
   city = 'Bucharest';
   date = new Date().toISOString().split('T')[0];
   result = '';
+  
+  
+  currentUser: any;
 
-  constructor(private weatherService: WeatherService) {}
+  constructor(private weatherService: WeatherService, public sidebarService: SidebarService) {}
+
+  ngOnInit() {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      this.currentUser = JSON.parse(userStr);
+    }
+  }
 
   getWeather() {
     console.log('Fetching weather for:', this.city, this.date);
@@ -37,4 +50,16 @@ export class WeatherComponent {
         }
       });
   }
+
+
+  toggleSidebar() {
+    this.sidebarService.toggle();
+  }
+
+  logout() {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+  }
+
 }

@@ -5,7 +5,7 @@ import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
-  standalone: true,   // <== IMPORTANT
+  standalone: true,
   imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css']
@@ -32,6 +32,5 @@ export class SidebarComponent {
 
   navAdmin = [
     ...this.navEmployee,
-    { label: 'Analytics', path: '/analytics' }
   ];
 }

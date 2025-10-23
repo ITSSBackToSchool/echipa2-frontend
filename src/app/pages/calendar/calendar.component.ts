@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import dayjs from 'dayjs';
-import { SidebarComponent } from '../../layout/sidebar/sidebar.component'; // ✅
+import { SidebarComponent } from '../../layout/sidebar/sidebar.component';
 
 @Component({
   selector: 'app-calendar',
   standalone: true,
-  imports: [CommonModule, SidebarComponent], // ✅
+  imports: [CommonModule, SidebarComponent],
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })

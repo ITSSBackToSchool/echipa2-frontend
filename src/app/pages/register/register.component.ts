@@ -12,7 +12,8 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  userName = '';
+  firstName = '';
+  lastName = '';
   email = '';
   password = '';
   confirmPassword = '';
@@ -23,38 +24,45 @@ export class RegisterComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   register() {
-    // 🔹 Check all fields are filled
-    if (!this.userName || !this.email || !this.password || !this.confirmPassword) {
-      this.errorMessage = 'Te rugăm să completezi toate câmpurile.';
+    if (!this.firstName || !this.lastName || !this.email || !this.password || !this.confirmPassword) {
+      this.errorMessage = 'Please fill in all fields.';
       return;
     }
 
-    // 🔹 Check passwords match
     if (this.password !== this.confirmPassword) {
-      this.errorMessage = 'Parolele nu coincid.';
+      this.errorMessage = 'Passwords do not match.';
       return;
     }
 
     this.loading = true;
     this.errorMessage = '';
 
-    // 🔹 Call AuthService register
-    this.authService.register(this.userName, this.email, this.password)
+    this.authService.register(`${this.firstName} ${this.lastName}`, this.email, this.password, this.firstName, this.lastName)
       .subscribe({
         next: (response) => {
-          console.log('Registration successful', response);
           this.loading = false;
 
-          // 🔹 Redirect to dashboard after registration
-          this.router.navigate(['/dashboard']);
+          setTimeout(() => {
+            this.router.navigate(['/dashboard']);
+          }, 100);
         },
         error: (err) => {
           this.loading = false;
-          this.errorMessage =
-            err.status === 400
-              ? 'Email deja înregistrat.'
-              : 'A apărut o eroare la înregistrare.';
           console.error('Registration error:', err);
+          
+
+          if (err.status === 400) {
+
+            if (err.error?.message === 'Email already registered' || err.error?.error === 'Email already registered') {
+              this.errorMessage = 'Un cont cu acest email deja există.';
+            } else {
+              this.errorMessage = err.error?.message || err.error?.error || 'Email deja înregistrat.';
+            }
+          } else if (err.status === 0) {
+            this.errorMessage = 'Nu se poate conecta la server. Verifică dacă backend-ul rulează.';
+          } else {
+            this.errorMessage = 'A apărut o eroare la înregistrare. Încearcă din nou.';
+          }
         }
       });
   }

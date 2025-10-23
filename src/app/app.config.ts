@@ -1,15 +1,15 @@
-import { ApplicationConfig , importProvidersFrom } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { routes } from './app.routes';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { provideZoneChangeDetection } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { tokenInterceptor } from './core/interceptors/token.interceptor';
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withInMemoryScrolling({ anchorScrolling: 'enabled' })),
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([tokenInterceptor])),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    importProvidersFrom(HttpClientModule),
   ]
 };
 

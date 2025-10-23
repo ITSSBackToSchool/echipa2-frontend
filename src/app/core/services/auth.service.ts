@@ -7,89 +7,118 @@ import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private apiUrl = 'http://localhost:8080/api/auth'; // ✅ Backend-ul tău Spring
+  private apiUrl = 'http://localhost:8080/api/auth'; 
   private storageKey = 'user';
   userSig = signal<User | null>(this.load());
 
   constructor(
     private router: Router,
     private http: HttpClient
-  ) {}
+  ) {
 
-  /** 🔹 Login real către backend */
+    this.initializeAuth();
+  }
+
+  private initializeAuth() {
+    const user = this.load();
+    if (user) {
+      this.userSig.set(user);
+    }
+  }
+
+  
   login(email: string, password: string): Observable<any> {
     const body = { email, password };
 
-    return this.http.post<{ id: number;token: string; userName: string; role: string }>(
+    return this.http.post<{ id: number;token: string; userName: string; firstName?: string; lastName?: string; role: string }>(
       `${this.apiUrl}/login`,
       body
     ).pipe(
       tap((response) => {
-        // ✅ Creează obiectul User compatibil cu restul aplicației
+
         const user: User = {
-          id: response.id, // poți schimba dacă backend-ul returnează id
+          id: response.id, 
           name: response.userName,
+          firstName: response.firstName,
+          lastName: response.lastName,
           email,
           role: response.role ?? "EMPLOYEE",
           token: response.token
         };
 
-        // 🔹 Salvează userul în semnal + localStorage
         this.userSig.set(user);
         localStorage.setItem(this.storageKey, JSON.stringify(user));
       })
     );
   }
-/** 🔹 Register real către backend */
-register(userName: string, email: string, password: string): Observable<any> {
-  const body = { userName, email, password };
 
-  return this.http.post<{ id: number; token: string; userName: string; role: string }>(
+register(userName: string, email: string, password: string, firstName?: string, lastName?: string): Observable<any> {
+  const body = { 
+    userName, 
+    email, 
+    password,
+    firstName,
+    lastName
+  };
+
+  return this.http.post<{ id: number; token: string; userName: string; firstName?: string; lastName?: string; role: string }>(
     `${this.apiUrl}/register`,
     body
   ).pipe(
-    tap((response) => {
-      // ✅ Creează obiectul User compatibil cu restul aplicației
-      const user: User = {
-        id: response.id, // poți schimba dacă backend-ul returnează id
-        name: response.userName,
-        email,
-        role: response.role ?? "EMPLOYEE",
-        token: response.token
-      };
+      tap((response) => {
 
-      // 🔹 Salvează userul în semnal + localStorage
-      this.userSig.set(user);
-      localStorage.setItem(this.storageKey, JSON.stringify(user));
-    })
+        const user: User = {
+          id: response.id,
+          name: response.userName,
+          firstName: response.firstName || firstName,
+          lastName: response.lastName || lastName,
+          email,
+          role: response.role ?? "EMPLOYEE",
+          token: response.token
+        };
+
+        this.userSig.set(user);
+        localStorage.setItem(this.storageKey, JSON.stringify(user));
+      })
   );
 }
 
-  /** 🔹 Logout complet + redirect */
+  
   logout() {
     this.userSig.set(null);
     localStorage.removeItem(this.storageKey);
     this.router.navigateByUrl('/login');
   }
 
-  /** 🔹 Returnează token-ul curent */
+  
   get token() {
     return this.userSig()?.token ?? '';
   }
 
-  /** 🔹 Returnează rolul curent (ADMIN/EMPLOYEE) */
+  
   get role() {
     return this.userSig()?.role ?? 'EMPLOYEE';
   }
 
-  /** 🔹 Verifică dacă userul este autentificat */
+  
   get isLoggedIn() {
     return !!this.userSig();
   }
 
-  /** 🔹 Încarcă userul din localStorage la pornirea aplicației */
+  
   private load(): User | null {
-    const s = localStorage.getItem(this.storageKey);
-    return s ? JSON.parse(s) : null;
+    try {
+      const s = localStorage.getItem(this.storageKey);
+      if (s) {
+        const user = JSON.parse(s);
+        if (user.token) {
+          return user;
+        }
+      }
+      return null;
+    } catch (error) {
+      console.error('AuthService - Error loading user from localStorage:', error);
+      return null;
+    }
   }
 }

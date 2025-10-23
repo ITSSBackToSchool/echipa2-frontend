@@ -1,74 +1,94 @@
-<div class="container">
-  <header class="header">
-    <div class="logo"> <a routerLink="/home">
-    <img src="assets/logo.png" alt="OffiSeat Logo"></a>
-  </div>
-    <a routerLink="/login" class="login-link"></a>
-  </header>
-
-  <main class="main-content">
-    <div class="left">
-      <h2>Creează-ți contul și rezervă locul tău preferat!</h2>
-      <p>
-        Fă parte din comunitatea noastră și gestionează-ți rezervările rapid,
-        simplu și eficient.
-      </p>
+<div class="register-container">
+  <div class="form-card">
+    <div class="brand-header">
+      <div class="brand-logo">BS</div>
+      <h1>Create Account</h1>
+      <p>Register to start booking your workspace</p>
     </div>
 
-    <div class="right">
-      <div class="card">
-        <h3>Înregistrare</h3>
+    <form (ngSubmit)="register()" class="register-form" #registerForm="ngForm">
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
 
-        <form (ngSubmit)="register()">
-          <label>Nume complet</label>
+      <div class="input-group">
+        <label for="firstName">First name</label>
+        <div class="input-wrapper">
           <input
+            id="firstName"
             type="text"
-            [(ngModel)]="userName"
-            name="userName"
-            placeholder="Numele tău complet"
+            [(ngModel)]="firstName"
+            name="firstName"
+            placeholder="Mircea"
             required
           />
+        </div>
+      </div>
 
-          <label>Email</label>
+      <div class="input-group">
+        <label for="lastName">Last name</label>
+        <div class="input-wrapper">
           <input
+            id="lastName"
+            type="text"
+            [(ngModel)]="lastName"
+            name="lastName"
+            placeholder="Vlasiei"
+            required
+          />
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label for="email">Email</label>
+        <div class="input-wrapper">
+          <input
+            id="email"
             type="email"
             [(ngModel)]="email"
             name="email"
-            placeholder="nume@email.com"
+            placeholder="mircea.vlasiei@company.com"
             required
           />
+        </div>
+      </div>
 
-          <label>Parolă</label>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
           <input
+            id="password"
             type="password"
             [(ngModel)]="password"
             name="password"
-            placeholder="Alege o parolă"
+            placeholder="Create your password"
             required
           />
+        </div>
+      </div>
 
-          <label>Confirmă parola</label>
+      <div class="input-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <div class="input-wrapper">
           <input
+            id="confirmPassword"
             type="password"
             [(ngModel)]="confirmPassword"
             name="confirmPassword"
-            placeholder="Confirmă parola"
+            placeholder="Confirm your password"
             required
           />
-
-          <button type="submit" class="btn-primary">Creează cont</button>
-
-          <div class="divider">
-            <span>–––––––– Sau ––––––––</span>
-          </div>
-
-          <button type="button" routerLink="/login" class="btn-secondary">
-            Ai deja cont? Autentifică-te
-          </button>
-        </form>
+        </div>
       </div>
-    </div>
-  </main>
 
-  <footer class="footer">@ 2025 OfiiSeat. All rights reserved.</footer>
+      <button type="submit" class="btn-primary" [disabled]="loading">
+        {{ loading ? 'Creating...' : 'Create Account' }}
+      </button>
+
+      <div class="signin-link">
+        <span>Already have an account?</span>
+        <a routerLink="/login">Sign in</a>
+      </div>
+    </form>
+  </div>
 </div>

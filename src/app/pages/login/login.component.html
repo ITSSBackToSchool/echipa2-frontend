@@ -1,145 +1,57 @@
-<!-- <div class="login-container">
-  <header class="header">
-    <div class="logo">
-      <a routerLink="/home"><img src="assets/logo.png" alt="OffiSeat Logo"></a>
-    </div>
-  </header>
-
-  <main class="main">
-    <div class="left-side">
-      <h2>Rezervă-ți locul la birou în câteva secunde!</h2>
-      <p>
-        Simplifică-ți zilele de lucru. Alege biroul dorit, vezi disponibilitatea
-        în timp real și lucrează acolo unde ai nevoie.
-      </p>
-    </div>
-
-    <div class="right-side">
-      <div class="card">
-        <h3>Autentificare</h3>
-
-        <form (ngSubmit)="onLogin()">
-          <label for="email">Utilizator</label>
-          <input
-            id="email"
-            type="email"
-            name="email"
-            required
-            placeholder="nume@email.com"
-            [(ngModel)]="emailModel"
-          />
-
-          <label for="password">Parolă</label>
-          <input
-            id="password"
-            type="password"
-            name="password"
-            required
-            placeholder="Parola ta"
-            [(ngModel)]="passwordModel"
-          />
-
-          <button type="submit" class="btn-primary" [disabled]="loading">
-            {{ loading ? 'Se conectează...' : 'Intră în cont' }}
-          </button>
-
-          <div *ngIf="errorMessage" class="error-message">
-            {{ errorMessage }}
-          </div>
-          <div class="divider">
-            <span>–––––––– Sau ––––––––</span>
-          </div>
-
-          <button
-            type="button"
-            class="btn-secondary"
-            (click)="goToRegister()"
-            [disabled]="loading"
-          >
-            Creează cont
-          </button>
-        </form>
-      </div>
-    </div>
-  </main>
-
-  <footer class="footer">@ 2025 OfiiSeat. All rights reserved.</footer>
-</div> -->
 <div class="login-container">
-  <!-- 🔹 HEADER -->
-  <header class="header">
-    <div class="logo">
-      <a routerLink="/home">
-        <img src="assets/logo.png" alt="OffiSeat Logo" />
-      </a>
-    </div>
-  </header>
-
-  <!-- 🔹 MAIN -->
-  <main class="main">
-    <div class="left-side">
-      <h2>Rezervă-ți locul la birou în câteva secunde!</h2>
-      <p>
-        Simplifică-ți zilele de lucru. Alege biroul dorit, vezi disponibilitatea
-        în timp real și lucrează acolo unde ai nevoie.
-      </p>
+  <div class="form-card">
+    <div class="brand-header">
+      <div class="brand-logo">BS</div>
+      <h1>Book Your Seat</h1>
+      <p>Sign in to your account to manage your workspace bookings</p>
     </div>
 
-    <div class="right-side">
-      <div class="card">
-        <h3>Autentificare</h3>
-
-        <!-- 🟢 Formular care duce direct pe dashboard -->
-        <form (ngSubmit)="onLogin()" novalidate>
-          <label for="email">Utilizator</label>
+    <form (ngSubmit)="onLogin()" class="login-form">
+      <div class="input-group">
+        <label for="email">Email</label>
+        <div class="input-wrapper">
           <input
             id="email"
             type="email"
             name="email"
-            placeholder="nume@email.com"
+            placeholder="Enter your email"
             [(ngModel)]="emailModel"
+            required
           />
+        </div>
+      </div>
 
-          <label for="password">Parolă</label>
+      <div class="input-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
           <input
             id="password"
             type="password"
             name="password"
-            placeholder="Parola ta"
+            placeholder="Enter your password"
             [(ngModel)]="passwordModel"
+            required
           />
-
-          <!-- Butonul principal -->
-          <button type="submit" class="btn-primary" [disabled]="loading">
-            {{ loading ? 'Se conectează...' : 'Intră în cont' }}
-          </button>
-
-          <!-- Afișare erori (nu va apărea, dar o păstrăm pentru design) -->
-          <div *ngIf="errorMessage" class="error-message">
-            {{ errorMessage }}
-          </div>
-
-          <!-- Separator -->
-          <div class="divider">
-            <span>–––––––– Sau ––––––––</span>
-          </div>
-
-          <!-- Buton creare cont -->
-          <button
-            type="button"
-            class="btn-secondary"
-            (click)="goToRegister()"
-            [disabled]="loading"
-          >
-            Creează cont
-          </button>
-        </form>
+        </div>
       </div>
-    </div>
-  </main>
 
-  <!-- 🔹 FOOTER -->
-  <footer class="footer">
-    © 2025 OffiSeat. All rights reserved.
-  </footer>
+      <div class="checkbox-group">
+        <input type="checkbox" id="remember" />
+        <label for="remember">Remember me</label>
+      </div>
+
+      <button type="submit" class="btn-primary" [disabled]="loading">
+        {{ loading ? 'Signing in...' : 'Sign in' }}
+      </button>
+
+      <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+      </div>
+
+      <div class="signup-link">
+        <span>Don't have an account?</span>
+        <a routerLink="/register">Register here</a>
+      </div>
+    </form>
+  </div>
 </div>
