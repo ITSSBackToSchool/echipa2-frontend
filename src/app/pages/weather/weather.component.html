@@ -91,26 +91,77 @@
     </div>
     <div class="header-line"></div>
     <div class="weather-card">
-      <h2><i class="fa-solid fa-cloud-sun"></i> Weather Checker</h2>
+      <div class="widgets">
+        <div class="widget">
+          <div class="widget-header">Today in {{ city }}</div>
+          <div class="widget-body">
+            <div class="widget-temp">{{ (dayHours[selectedHourIndex]?.temp ?? '--') }}°C</div>
+            <div class="widget-line">
+              <span>High</span><strong>{{ daily[selectedDayIndex]?.tmax ?? '--' }}°</strong>
+              <span class="sep">/</span>
+              <span>Low</span><strong>{{ daily[selectedDayIndex]?.tmin ?? '--' }}°</strong>
+            </div>
+            <div class="widget-meta">
+              <div>💧 {{ dayHours[selectedHourIndex]?.precip ?? 0 }}mm</div>
+              <div>RH {{ dayHours[selectedHourIndex]?.humidity ?? 0 }}%</div>
+              <div>🌬️ {{ dayHours[selectedHourIndex]?.wind ?? 0 }} km/h</div>
+            </div>
+          </div>
+          <div class="temp-graph" *ngIf="dayHours?.length">
+            <svg viewBox="0 0 100 60" preserveAspectRatio="none">
+              <path class="area" [attr.d]="getTempAreaPath()"></path>
+              <path class="line" [attr.d]="getTempLinePath()"></path>
+            </svg>
+            <div class="x-labels">
+              <span>{{ dayHours[0]?.time | date:'HH:mm' }}</span>
+              <span>{{ dayHours[(dayHours.length-1)/2]?.time | date:'HH:mm' }}</span>
+              <span>{{ dayHours[dayHours.length-1]?.time | date:'HH:mm' }}</span>
+            </div>
+          </div>
 
-      
-      <div class="input-section">
-        <input
-          type="text"
-          [(ngModel)]="city"
-          placeholder="Enter city"
-          class="input-field"
-        />
+          <div class="hour-track" *ngIf="threeHourSamples().length">
+            <button class="hour-chip" *ngFor="let s of threeHourSamples(); index as i"
+              (click)="selectHour(s.index)" [class.active]="s.index===selectedHourIndex"
+              [style.left.%]="positionForIndex(i)">
+              <span class="chip-time">{{ s.time | date:'HH:mm' }}</span>
+              <span class="chip-temp">{{ s.temp | number:'1.0-0' }}°C</span>
+            </button>
+          </div>
+          <div class="days-cards" *ngIf="daily?.length">
+            <button class="day-card" *ngFor="let d of daily; index as i" (click)="selectDay(i)" [class.active]="i===selectedDayIndex">
+              <div class="day-card-top">{{ d.date | date:'EEE' }}</div>
+              <div class="day-card-icon">{{ getDayIcon(i) }}</div>
+              <div class="day-card-temps"><span class="hi">{{ d.tmax | number:'1.0-0' }}°</span> <span class="lo">{{ d.tmin | number:'1.0-0' }}°</span></div>
+            </button>
+          </div>
+        </div>
 
-        <input type="date" [(ngModel)]="date" class="input-field" />
-
-        <button (click)="getWeather()" class="btn-get">Get Weather (Backend)</button>
-      </div>
-
-      
-      <div class="result-section" *ngIf="result">
-        <h3>Backend Result:</h3>
-        <p class="result-text">{{ result }}</p>
+        <div class="widget">
+          <div class="widget-header">Tree Pollen</div>
+          <div class="widget-body pollen">
+            <div class="pollen-badge-lg" [class.cat-low]="treePollenCategory==='Low'" [class.cat-moderate]="treePollenCategory==='Moderate'" [class.cat-high]="treePollenCategory==='High'" [class.cat-very-high]="treePollenCategory==='Very High'" [class.cat-extreme]="treePollenCategory==='Extreme'">
+              {{ treePollenCategory || 'Low' }}
+            </div>
+            <div class="pollen-index">Index: <strong>{{ treePollenValue ?? '0' }}</strong></div>
+            <div class="pollen-vert">
+              <div class="pollen-track">
+                <div class="pollen-dot" [style.top.%]="getPollenPercent()"></div>
+              </div>
+              <div class="pollen-cats">
+                <span>Extreme</span>
+                <span>Very High</span>
+                <span>High</span>
+                <span>Moderate</span>
+                <span>Low</span>
+              </div>
+            </div>
+          </div>
+          <div class="day-selector">
+            <button *ngFor="let d of daily; index as i" (click)="selectPollenDay(i)" [class.active]="i===pollenSelectedDayIndex">
+              {{ d.date | date:'EEE' }}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </main>

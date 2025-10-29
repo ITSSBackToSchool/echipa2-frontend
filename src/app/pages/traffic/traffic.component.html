@@ -90,34 +90,119 @@
       <app-profile-section></app-profile-section>
     </div>
     <div class="header-line"></div>
-    <div class="traffic-card">
-      <h2>Traffic</h2>
-      <p>Calculate your route and estimate travel time.</p>
 
-      <div class="form-grid">
-        <mat-form-field appearance="outline">
-          <mat-label>Enter Origin</mat-label>
-          <input matInput [(ngModel)]="origin" placeholder="Start location">
+    
+
+    <!-- Google Maps Container with Integrated Search -->
+    <div class="map-container">
+      <div class="map-search-controls">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>From (Origin)</mat-label>
+          <input id="origin-input" matInput [(ngModel)]="origin" placeholder="Type to search addresses">
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Enter Destination</mat-label>
-          <input matInput [(ngModel)]="destination" placeholder="End location">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>To (Destination)</mat-label>
+          <input id="destination-input" matInput [(ngModel)]="destination" placeholder="Type to search addresses">
         </mat-form-field>
+
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Time option</mat-label>
+          <mat-select [(ngModel)]="timeType">
+            <mat-option value="LEAVE_NOW">Leave now</mat-option>
+            <mat-option value="DEPART_AT">Depart at</mat-option>
+            <mat-option value="ARRIVE_BY">Arrive by</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="search-field" *ngIf="timeType!=='LEAVE_NOW'">
+          <mat-label>{{ timeType==='DEPART_AT' ? 'Departure time' : 'Arrival time' }}</mat-label>
+          <input matInput type="datetime-local" [(ngModel)]="departureDateTime">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Mode</mat-label>
+          <mat-select [(ngModel)]="travelMode" (ngModelChange)="onModeChange($event)">
+            <mat-option value="DRIVING">Car (Driving)</mat-option>
+            <mat-option value="WALKING">Walking</mat-option>
+            <mat-option value="TRANSIT">Transit (Bus/Metro)</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- Dropdown-style trigger -->
+        <button type="button" class="route-options-select" *ngIf="travelMode==='TRANSIT'" (click)="showOptionsOverlay = !showOptionsOverlay">
+          <span>Route options</span>
+          <span class="caret">▾</span>
+        </button>
+
+        
+
+        <button mat-raised-button color="primary" (click)="calculate()" [disabled]="isLoading" class="search-btn">
+          <span *ngIf="isLoading">Calculating...</span>
+          <span *ngIf="!isLoading">Calculate Route</span>
+        </button>
       </div>
 
-      <button mat-raised-button color="primary" (click)="calculate()">Calculate Route</button>
+      <div id="map" class="google-map"></div>
+      <div class="overlay-card options-dropdown" *ngIf="showOptionsOverlay">
+        <div class="overlay-header">
+          <div>Route options</div>
+          <button class="link-close" (click)="closeOptions()">Close</button>
+        </div>
+        <div class="options-panel" *ngIf="travelMode==='TRANSIT'">
+          <div class="opts-group">
+            <div class="opts-title">Prefer</div>
+            <label><input type="checkbox" [(ngModel)]="optBus"> Bus</label>
+            <label><input type="checkbox" [(ngModel)]="optSubway"> Subway</label>
+            <label><input type="checkbox" [(ngModel)]="optTrain"> Train</label>
+            <label><input type="checkbox" [(ngModel)]="optTram"> Tram & light rail</label>
+          </div>
+          <div class="opts-group">
+            <div class="opts-title">Routes</div>
+            <label><input type="radio" name="rp2" [(ngModel)]="routePreference" value="BEST"> Best route</label>
+            <label><input type="radio" name="rp2" [(ngModel)]="routePreference" value="FEWER_TRANSFERS"> Fewer transfers</label>
+            <label><input type="radio" name="rp2" [(ngModel)]="routePreference" value="LESS_WALKING"> Less walking</label>
+          </div>
+        </div>
+      </div>
+      <p class="map-hint">💡 Type in the search boxes or single-click on the map to select locations</p>
 
-      <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+      <!-- Alternatives (concise, metro-first) -->
+      <div *ngIf="alternatives.length" class="alt-list">
+        <div class="alt-card" *ngFor="let alt of alternatives" [class.active]="alt.index===selectedRouteIndex" (click)="selectAlternative(alt.index)">
+          <div class="alt-title">{{ alt.title }}</div>
+          <div class="alt-meta">{{ alt.duration }} · {{ alt.distance }}</div>
+        </div>
+      </div>
 
-      <div *ngIf="routeDistance && routeDuration" class="results">
-        <p><strong>Total distance:</strong> {{ routeDistance }}</p>
-        <p><strong>Estimated time:</strong> {{ routeDuration }}</p>
-        <h4>Steps:</h4>
-        <ol>
-          <li *ngFor="let step of routeSteps" [innerHTML]="step"></li>
-        </ol>
+      <!-- Results Summary (moved under map) -->
+      <div *ngIf="routeDistance && (routeDuration || routeDurationTraffic || routeDurationNormal)" class="results-summary">
+        <h3>Route Information</h3>
+        <div class="result-grid">
+          <div class="result-item">
+            <span class="label">Total Distance:</span>
+            <span class="value">{{ routeDistance }}</span>
+          </div>
+          <div class="result-item">
+            <span class="label">With Traffic:</span>
+            <span class="value">{{ routeDurationTraffic || routeDuration }}</span>
+          </div>
+          <div class="result-item" *ngIf="routeDurationNormal">
+            <span class="label">Normal Time:</span>
+            <span class="value">{{ routeDurationNormal }}</span>
+          </div>
+        </div>
+        <div class="details-section">
+          <p *ngIf="routeSummaryHtml; else listSteps" [innerHTML]="routeSummaryHtml"></p>
+          <ng-template #listSteps>
+            <ul>
+              <li *ngFor="let step of routeSteps">{{ step }}</li>
+            </ul>
+          </ng-template>
+        </div>
       </div>
     </div>
   </main>
 </div>
+
+
+

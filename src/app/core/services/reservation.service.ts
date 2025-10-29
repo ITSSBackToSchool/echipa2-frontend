@@ -10,9 +10,9 @@ export interface UserReservationDTO {
   roomName: string | null;
   floorName: string | null;
   buildingName: string | null;
-  reservationDate: string; // LocalDate from backend
-  startTime: string; // LocalTime from backend
-  endTime: string; // LocalTime from backend
+  reservationDate: string;
+  startTime: string;
+  endTime: string;
   status: string;
 }
 

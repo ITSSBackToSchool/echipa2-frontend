@@ -26,6 +26,10 @@ export class DashboardComponent implements OnInit {
   displayedReservations: UserReservation[] = [];
   hasMoreReservations: boolean = false;
   weather: any = null;
+  today: Date = new Date();
+  todaySamples: { time: string; temp: number; code: number }[] = [];
+  currentSampleIndex = 0;
+  fixedSamples: { time: string; temp: number; code: number }[] = [];
 
   officePresence = {
     month: 12,
@@ -187,37 +191,120 @@ export class DashboardComponent implements OnInit {
    * 🔹 Load weather data
    */
   private loadWeather(city: string): void {
+      this.http.get('https://api.open-meteo.com/v1/forecast?latitude=44.4268&longitude=26.1025&hourly=temperature_2m,weathercode&timezone=auto&forecast_days=1')
+        .subscribe({
+          next: (data: any) => {
+            const times: string[] = data?.hourly?.time ?? [];
+            const temps: number[] = data?.hourly?.temperature_2m ?? [];
+            const codes: number[] = data?.hourly?.weathercode ?? [];
 
+            const todayIso = new Date().toISOString().slice(0,10);
+            this.todaySamples = [];
+            for (let i = 0; i < times.length; i++) {
+              const t = times[i];
+              if (!t.startsWith(todayIso)) continue;
+              const hour = new Date(t).getHours();
+              if (hour % 3 === 0) {
+                this.todaySamples.push({ time: t, temp: Math.round(temps[i] ?? 0), code: Number(codes[i] ?? 0) });
+              }
+            }
 
-    
+            const targets = [0,3,6,9,12,15,18,21];
+            this.fixedSamples = targets.map(h => {
+              let bestI = -1; let bestDiff = Number.MAX_SAFE_INTEGER;
+              for (let i = 0; i < times.length; i++) {
+                const d = new Date(times[i]);
+                if (times[i].startsWith(todayIso)) {
+                  const diff = Math.abs(d.getHours() - h) + Math.abs(d.getMinutes()/60);
+                  if (diff < bestDiff) { bestDiff = diff; bestI = i; }
+                }
+              }
+              if (bestI === -1) { bestI = 0; }
+              return { time: times[bestI], temp: Math.round(temps[bestI] ?? 0), code: Number(codes[bestI] ?? 0) };
+            });
 
-    this.weather = {
-      city: 'Bucharest',
-      currentTemp: 30,
-      condition: 'Sunny',
-      icon: 'https://openweathermap.org/img/wn/01d@2x.png'
-    };
+            if (this.fixedSamples.length) {
+              let bestIdxFixed = 0; let bestDiffFixed = Number.MAX_SAFE_INTEGER;
+              const nowMs2 = Date.now();
+              this.fixedSamples.forEach((s, i) => {
+                const diff = Math.abs(new Date(s.time).getTime() - nowMs2);
+                if (diff < bestDiffFixed) { bestDiffFixed = diff; bestIdxFixed = i; }
+              });
+              this.currentSampleIndex = bestIdxFixed;
+            } else {
+              this.currentSampleIndex = 0;
+            }
 
-    /* 
+            if (this.todaySamples.length === 0 && times.length) {
+              for (let i = 0; i < times.length; i += 3) {
+                this.todaySamples.push({ time: times[i], temp: Math.round(temps[i] ?? 0), code: Number(codes[i] ?? 0) });
+              }
+            }
 
-    const apiKey = 'YOUR_OPENWEATHER_API_KEY';
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+            let bestIdx = 0;
+            let minDiff = Number.MAX_SAFE_INTEGER;
+            const nowMs = Date.now();
+            this.todaySamples.forEach((s, i) => {
+              const diff = Math.abs(new Date(s.time).getTime() - nowMs);
+              if (diff < minDiff) { minDiff = diff; bestIdx = i; }
+            });
+            this.currentSampleIndex = bestIdx;
 
-    this.http.get(url).subscribe({
-      next: (data: any) => {
-        this.weather = {
-          city: data.name,
-          currentTemp: Math.round(data.main.temp),
-          condition: data.weather[0].main,
-          icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`
-        };
-        console.log('✅ Weather loaded:', this.weather);
-      },
-      error: (err) => {
-        console.error('❌ Error loading weather:', err);
-      }
-    });
-    */
+            let bestIdxRaw = 0; minDiff = Number.MAX_SAFE_INTEGER;
+            for (let i = 0; i < times.length; i++) {
+              const diff = Math.abs(new Date(times[i]).getTime() - nowMs);
+              if (diff < minDiff) { minDiff = diff; bestIdxRaw = i; }
+            }
+            const temp = Math.round(temps[bestIdxRaw] ?? 0);
+            const code = Number(codes[bestIdxRaw] ?? 0);
+            this.weather = {
+              city: 'Bucharest',
+              currentTemp: temp,
+              condition: this.getConditionFromCode(code),
+              code
+            };
+          },
+          error: () => {
+            this.weather = { city: 'Bucharest', currentTemp: '--', condition: 'N/A' };
+            this.todaySamples = [];
+            this.currentSampleIndex = 0;
+          }
+        });
+  }
+
+  getConditionFromCode(code: number): string {
+    if (code === 0) return 'Clear';
+    if (code === 1) return 'Mainly clear';
+    if (code === 2) return 'Partly cloudy';
+    if (code === 3) return 'Overcast';
+    if ([45,48].includes(code)) return 'Fog';
+    if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return 'Rain';
+    if (code >= 71 && code <= 77) return 'Snow';
+    if (code >= 95) return 'Thunderstorm';
+    return 'Clear';
+  }
+
+  getEmojiFromCode(code: number): string {
+    if (code === 0) return '☀️';
+    if ([1,2].includes(code)) return '⛅';
+    if (code === 3 || [45,48].includes(code)) return '☁️';
+    if ((code >= 51 && code <= 67) || (code >= 80 && code <= 82)) return '🌧️';
+    if (code >= 71 && code <= 77) return '❄️';
+    if (code >= 95) return '⛈️';
+    return '☀️';
+  }
+
+  // Friendly time bucket for styling
+  timeBucket(timeIso: string): 'morning' | 'day' | 'evening' | 'night' {
+    try {
+      const h = new Date(timeIso).getHours();
+      if (h >= 5 && h < 11) return 'morning';
+      if (h >= 11 && h < 17) return 'day';
+      if (h >= 17 && h < 21) return 'evening';
+      return 'night';
+    } catch {
+      return 'day';
+    }
   }
 
   /**

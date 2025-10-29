@@ -131,15 +131,23 @@
   color: #6b7280;
 }
 
-.signin-link a {
+.signin-link a, .link-btn {
   color: #0E7479;
   text-decoration: none;
   font-weight: 500;
   margin-left: 4px;
 }
 
-.signin-link a:hover {
+.signin-link a:hover, .link-btn:hover {
   text-decoration: underline;
+}
+
+/* Button-styled link to avoid form-submit conflicts */
+.link-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 

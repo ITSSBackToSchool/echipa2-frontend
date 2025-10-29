@@ -172,6 +172,7 @@
                  </svg>
                </div>
               <span class="seat-number">{{ seat.seatNumber }}</span>
+              <span class="seat-occupant" *ngIf="!seat.isAvailable && seat.reservedBy">{{ seat.reservedBy }}</span>
             </div>
           </div>
           

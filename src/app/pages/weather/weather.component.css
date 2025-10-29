@@ -488,6 +488,136 @@
 }
 
 
+/* Redesigned Weather green/white UI */
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+.title .emoji { font-size: 1.3rem; }
+.controls { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.input {
+  padding: 0.6rem 0.9rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  background: #fff;
+  min-width: 180px;
+}
+.input:focus { outline: none; border-color: #0E7479; box-shadow: 0 0 0 3px rgba(14,116,121,.08); }
+.btn { padding: 0.6rem 1rem; border-radius: 8px; border: 1px solid #0E7479; color: #0E7479; background: #fff; font-weight: 600; cursor: pointer; }
+.btn.primary { background: #0E7479; color: #fff; border-color: #0E7479; }
+.btn:hover { filter: brightness(0.98); }
+
+.grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 1rem; }
+.panel { background: #fff; border: 1px solid #e5e7eb; border-radius: 10px; padding: 1rem; }
+.panel-title { font-weight: 600; margin-bottom: 0.75rem; color: #0E7479; }
+
+.hourly-scroller { display: grid; grid-template-columns: repeat(8, minmax(120px,1fr)); gap: 0.5rem; overflow-x: auto; padding-bottom: 0.25rem; }
+.hour { background: #f5fdfd; border: 1px solid #e7f6f6; border-radius: 8px; padding: 0.6rem; min-width: 120px; }
+.hour-time { font-weight: 600; color: #0E7479; }
+.hour-temp { font-size: 1.1rem; font-weight: 700; margin: 0.25rem 0; color: #111827; }
+.hour-meta { font-size: 0.8rem; color: #4b5563; }
+
+.days-grid { display: grid; grid-template-columns: repeat(1, 1fr); gap: 0.5rem; }
+.day { display: flex; justify-content: space-between; align-items: center; background: #f8fffe; border: 1px solid #e8f4f3; padding: 0.6rem 0.8rem; border-radius: 8px; }
+.day-date { color: #111827; font-weight: 600; }
+.day-temps .hi { color: #0E7479; font-weight: 700; }
+.day-temps .lo { color: #6b7280; }
+
+/* Pollen card */
+.pollen-card { border: 1px solid #e5e7eb; border-radius: 10px; padding: 0.8rem; background: #ffffff; }
+.pollen-row { display: flex; justify-content: space-between; align-items: center; padding: 0.35rem 0; }
+.pollen-label { color: #6b7280; font-size: 0.9rem; }
+.pollen-badge { padding: 0.25rem 0.6rem; border-radius: 9999px; font-weight: 700; color: #0c3d2f; background: #d1fae5; border: 1px solid #10b981; }
+.pollen-value { font-weight: 700; color: #111827; }
+.pollen-scale { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.4rem; margin-top: 0.6rem; }
+.pollen-scale .tick { text-align: center; font-size: 0.75rem; padding: 0.35rem; border-radius: 6px; color: #fff; }
+.tick.low { background: #16a34a; }
+.tick.moderate { background: #65a30d; }
+.tick.high { background: #f59e0b; }
+.tick.very-high { background: #ef4444; }
+.tick.extreme { background: #991b1b; }
+
+/* category coloring for badge */
+.pollen-card.cat-low .pollen-badge { background: #ecfdf5; border-color: #10b981; color: #065f46; }
+.pollen-card.cat-moderate .pollen-badge { background: #f0fdf4; border-color: #65a30d; color: #3f6212; }
+.pollen-card.cat-high .pollen-badge { background: #fff7ed; border-color: #f59e0b; color: #9a3412; }
+.pollen-card.cat-very-high .pollen-badge { background: #fef2f2; border-color: #ef4444; color: #7f1d1d; }
+.pollen-card.cat-extreme .pollen-badge { background: #fef2f2; border-color: #991b1b; color: #7f1d1d; }
+
+/* Widget layout */
+.widgets { display: grid; grid-template-columns: 1fr; gap: 1.25rem; }
+.widget { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 12px; padding: 1rem; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+.widget-header { font-weight: 700; color: #0E7479; margin-bottom: .5rem; }
+.widget-body { display: flex; flex-direction: column; gap: .4rem; align-items: flex-start; }
+.widget-temp { font-size: 2.4rem; font-weight: 800; color: #111827; }
+.widget-line { display: flex; align-items: center; gap: .35rem; color: #374151; }
+.widget-line .sep { opacity: .5; }
+.widget-meta { display: flex; gap: 1rem; color: #4b5563; font-size: .9rem; }
+
+.day-selector { display: flex; gap: .4rem; margin-top: .6rem; flex-wrap: wrap; }
+.day-selector button { border: 1px solid #0E7479; background: #fff; color: #0E7479; padding: .35rem .6rem; border-radius: 8px; font-weight: 600; cursor: pointer; }
+.day-selector button.active, .day-selector button:hover { background: #0E7479; color: #fff; }
+
+/* Daily cards like reference */
+.days-cards { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(86px, 1fr); gap: .6rem; overflow-x: auto; padding: .25rem 0; }
+.day-card { border: 1px solid #e5e7eb; background: #fff; border-radius: 12px; padding: .5rem; cursor: pointer; text-align: center; display: flex; flex-direction: column; gap: .2rem; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+.day-card.active { border-color: #0E7479; box-shadow: 0 0 0 3px rgba(14,116,121,.08); }
+.day-card-top { color: #111827; font-weight: 700; font-size: 1rem; }
+.day-card-icon { font-size: 1.6rem; line-height: 1; }
+.day-card-temps { font-size: .95rem; }
+.day-card-temps .hi { color: #0E7479; font-weight: 700; }
+.day-card-temps .lo { color: #6b7280; }
+
+/* Pollen widget */
+.widget-body.pollen { align-items: stretch; }
+.pollen-badge-lg { align-self: flex-start; padding: .5rem 1rem; border-radius: 9999px; font-weight: 800; font-size: 1rem; border: 2px solid #10b981; background: #ecfdf5; color: #065f46; }
+.pollen-badge-lg.cat-moderate { border-color: #65a30d; background: #f0fdf4; color: #3f6212; }
+.pollen-badge-lg.cat-high { border-color: #f59e0b; background: #fff7ed; color: #9a3412; }
+.pollen-badge-lg.cat-very-high { border-color: #ef4444; background: #fef2f2; color: #7f1d1d; }
+.pollen-badge-lg.cat-extreme { border-color: #991b1b; background: #fef2f2; color: #7f1d1d; }
+.pollen-index { color: #111827; }
+
+/* Vertical pollen scale */
+.pollen-vert { display: grid; grid-template-columns: auto 1fr; gap: 1.2rem; align-items: center; margin-top: .6rem; }
+.pollen-track { position: relative; width: 16px; height: 240px; border-radius: 9999px; background: linear-gradient(180deg,#991b1b 0%, #ef4444 25%, #f59e0b 50%, #65a30d 75%, #16a34a 100%); border: 2px solid #e5e7eb; }
+.pollen-dot { position: absolute; left: 50%; transform: translate(-50%, -50%); width: 20px; height: 20px; border-radius: 50%; background: #fff; border: 3px solid #0E7479; box-shadow: 0 2px 6px rgba(0,0,0,.18); }
+.pollen-cats { display: grid; grid-template-rows: repeat(5, 1fr); height: 240px; align-items: center; color: #374151; font-size: 1.05rem; row-gap: .2rem; }
+.pollen-cats span { display: block; }
+
+.hour-track { position: relative; height: 48px; margin: .5rem 0 .25rem; }
+.hour-chip { position: absolute; top: 0; transform: translateX(-50%); border: 1px solid #d1d5db; background: #ffffff; color: #111827; padding: .45rem .7rem; border-radius: 12px; font-weight: 500; cursor: pointer; white-space: nowrap; display: flex; flex-direction: column; align-items: center; gap: .1rem; min-width: 92px; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+.hour-chip .chip-time { color: #0E7479; font-weight: 600; font-size: .92rem; }
+.hour-chip .chip-temp { color: #374151; opacity: .9; font-size: .88rem; }
+.hour-chip.active, .hour-chip:hover { background: #0E7479; color: #fff; border-color: #0E7479; }
+/* Ensure inner text becomes white on dark active/hover background */
+.hour-chip.active .chip-time,
+.hour-chip.active .chip-temp,
+.hour-chip:hover .chip-time,
+.hour-chip:hover .chip-temp { color: #fff; opacity: 1; }
+
+/* Pollen progress bar */
+.pollen-bar { position: relative; height: 10px; border-radius: 9999px; background: #eef2f7; margin: .5rem 0 .4rem; overflow: hidden; border: 1px solid #e5e7eb; }
+.pollen-bar-fill { position: absolute; inset: 0; background: linear-gradient(90deg,#16a34a 0%, #65a30d 25%, #f59e0b 50%, #ef4444 75%, #991b1b 100%); opacity: .85; }
+.pollen-indicator { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 14px; height: 14px; border-radius: 50%; background: #fff; border: 2px solid #0E7479; box-shadow: 0 1px 4px rgba(0,0,0,.15); }
+
+/* Temperature sparkline */
+.temp-graph { margin-top: .6rem; }
+.temp-graph svg { width: 100%; height: 120px; display: block; }
+.temp-graph .area { fill: rgba(14,116,121,.08); stroke: none; }
+.temp-graph .line { stroke: #0E7479; stroke-width: 2; fill: none; }
+.temp-graph .x-labels { display: flex; justify-content: space-between; font-size: .75rem; color: #6b7280; margin-top: .25rem; }
+
 @media (max-width: 1024px) {
   .input-section {
     flex-direction: column;
@@ -506,6 +636,8 @@
     font-size: 2.5rem;
   }
 }
+
+@media (max-width: 1024px) { .grid { grid-template-columns: 1fr; } .hourly-scroller { grid-template-columns: repeat(4, minmax(120px,1fr)); } }
 
 @media (max-width: 768px) {
   .sidebar {

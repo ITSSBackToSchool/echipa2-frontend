@@ -738,7 +738,7 @@
 
 .bottom-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 2rem;
   margin-top: 2rem;
 }
@@ -805,6 +805,7 @@
 
 .weather-card {
   position: relative;
+  background: radial-gradient(1200px 400px at 50% -200px, rgba(14,116,121,.10), transparent 60%) #fff;
 }
 
 .weather-header {
@@ -831,7 +832,7 @@
 }
 
 .weather-city {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   font-weight: 600;
   color: #1f2937;
   margin-bottom: 1rem;
@@ -872,6 +873,116 @@
   padding: 2rem;
   color: #9ca3af;
   font-style: italic;
+}
+
+.cta-weather {
+  margin-top: 1.25rem;
+  background: #0E7479;
+  color: #fff;
+  border: none;
+  padding: .6rem 1.2rem;
+  border-radius: 9999px;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(14,116,121,.25);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.mini-hours {
+  display: flex;
+  gap: .5rem;
+  margin-top: .75rem;
+  flex-wrap: nowrap;
+  justify-content: center;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.mini-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  border-radius: 10px;
+  padding: .45rem .6rem;
+  min-width: 70px;
+}
+.mini-emoji { font-size: 1.2rem; line-height: 1; }
+.mini-chip.active {
+  border-color: #0E7479;
+  box-shadow: 0 0 0 3px rgba(14,116,121,.08);
+}
+.mini-time { font-size: .8rem; color: #6b7280; }
+.mini-temp { font-size: .95rem; font-weight: 700; color: #111827; }
+.cta-weather:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(14,116,121,.35);
+}
+
+/* Large hourly (8 columns) */
+.large-hours {
+  display: grid;
+  grid-template-columns: repeat(8, 140px);
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+  justify-items: center;
+  margin: 1rem 0 0.5rem 0;
+}
+.large-hour {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: .75rem 1rem;
+  background: linear-gradient(180deg, rgba(14,116,121,0.06), rgba(255,255,255,0.85));
+  border: 1px solid rgba(14,116,121,0.18);
+  border-radius: 16px;
+  backdrop-filter: blur(6px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.06), 0 0 0 0 rgba(14,116,121,0);
+  transition: transform .15s ease, box-shadow .15s ease;
+  width: 140px;
+  height: 200px;
+  box-sizing: border-box;
+}
+.large-emoji { font-size: 3rem; line-height: 1; margin-bottom: .35rem; filter: drop-shadow(0 2px 6px rgba(14,116,121,.18)); }
+.large-temp { font-size: 2.6rem; font-weight: 800; color: #f59e0b; line-height: 1.1; text-shadow: 0 1px 0 rgba(0,0,0,.04); }
+.large-cond { font-size: 1rem; color: #6b7280; font-weight: 600; margin-top: .05rem; }
+.large-time { font-size: .9rem; color: #0E7479; margin-top: .3rem; padding: .15rem .5rem; border-radius: 9999px; background: linear-gradient(180deg, #ecfeff, #e6fffb); border: 1px solid #d1f5f2; box-shadow: 0 1px 3px rgba(14,116,121,.15); }
+
+.large-hour:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 10px 18px rgba(0,0,0,.1), 0 0 0 3px rgba(14,116,121,.12); border-color: #0E7479; }
+
+/* Subtle float animation for emoji */
+@keyframes floaty { 0% { transform: translateY(0) } 50% { transform: translateY(-3px) } 100% { transform: translateY(0) } }
+.large-emoji { animation: floaty 3s ease-in-out infinite; }
+
+/* Time pill palettes */
+.large-time.morning { background: linear-gradient(180deg,#fef9c3,#fef3c7); border-color: #fde68a; color: #92400e; }
+.large-time.day { background: linear-gradient(180deg,#e0f2fe,#bae6fd); border-color: #93c5fd; color: #1e3a8a; }
+.large-time.evening { background: linear-gradient(180deg,#fde2e2,#fecaca); border-color: #fda4af; color: #7f1d1d; }
+.large-time.night { background: linear-gradient(180deg,#e9d5ff,#ddd6fe); border-color: #c4b5fd; color: #3730a3; }
+
+/* Compact hourly row: 8 icons on one line, times underneath */
+.hourly-compact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .35rem;
+  margin-top: .75rem;
+}
+.icons-row,
+.times-row {
+  display: grid;
+  grid-template-columns: repeat(8, minmax(0, 1fr));
+  gap: .75rem;
+  align-items: center;
+  justify-items: center;
+}
+.icons-row .icon {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.times-row .time {
+  font-size: .85rem;
+  color: #6b7280;
 }
 
 

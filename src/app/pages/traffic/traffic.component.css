@@ -402,6 +402,12 @@ mat-form-field {
   color: #374151;
 }
 
+/* Colored transit segment labels in summary */
+.seg { font-weight: 800; }
+.seg-metro { color: #0E7479; }
+.seg-tram { color: #f59e0b; }
+.seg-rail { color: #7c3aed; }
+
 .results ul {
   margin: 1rem 0;
   padding-left: 1.5rem;
@@ -410,6 +416,65 @@ mat-form-field {
 .results li {
   margin: 0.5rem 0;
   color: #374151;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #e5e7eb;
+}
+
+.result-item .label {
+  font-weight: 500;
+  color: #6b7280;
+}
+
+.result-item .value {
+  font-weight: 600;
+  color: #1f2937;
+  font-size: 1.1rem;
+}
+
+.details-section {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.details-section h4 {
+  color: #1f2937;
+  margin-bottom: 0.75rem;
+}
+
+.details-section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.details-section li {
+  padding: 0.5rem 0;
+  color: #374151;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.details-section li:last-child {
+  border-bottom: none;
 }
 
 .error {
@@ -428,6 +493,90 @@ mat-form-field {
   border-radius: 6px;
   border: 1px solid #fecaca;
   margin-top: 1rem;
+}
+
+/* Results Summary */
+.results-summary {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #e5e7eb;
+}
+
+.results-summary h3 {
+  color: #1f2937;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+/* Map Container Styles */
+.map-container {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Alternative routes list */
+.alt-list { display: flex; gap: .5rem; margin-top: .5rem; flex-wrap: wrap; }
+.alt-card { cursor: pointer; border: 1px solid #e5e7eb; background: #fff; padding: .5rem .75rem; border-radius: 10px; box-shadow: 0 1px 2px rgba(0,0,0,.05); }
+.alt-card .alt-title { font-weight: 700; color: #0E7479; }
+.alt-card .alt-meta { font-size: .85rem; color: #6b7280; }
+.alt-card.active { border-color: #0E7479; box-shadow: 0 0 0 3px rgba(14,116,121,.1); }
+
+.map-search-controls {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  align-items: flex-start;
+  position: relative;
+}
+
+.options-panel { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: .75rem; align-items: start; }
+.opts-group { background: #fff; border: 1px solid #e5e7eb; border-radius: 8px; padding: .6rem .8rem; display: flex; flex-direction: column; gap: .35rem; }
+.opts-title { font-weight: 700; color: #0E7479; margin-bottom: .25rem; }
+.opts-group label { display: flex; align-items: center; gap: .4rem; color: #374151; }
+.route-options-select { border: 1px solid #d1d5db; background: #fff; padding: 0.75rem 1rem; border-radius: 8px; font-weight: 600; color: #1f2937; cursor: pointer; display: inline-flex; align-items: center; gap: .5rem; }
+.route-options-select .caret { color: #6b7280; }
+.route-options-select:hover { border-color: #0E7479; box-shadow: 0 0 0 3px rgba(14,116,121,.08); }
+
+/* Dropdown anchored under the trigger inside the controls */
+.options-dropdown { position: absolute; top: 58px; right: 0; width: 360px; }
+
+.search-field {
+  flex: 1;
+}
+
+.search-btn {
+  height: 56px;
+  margin-top: 0;
+}
+
+.google-map {
+  width: 100%;
+  height: 600px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 0.5rem;
+}
+
+/* Floating options button and overlay */
+.options-fab { position: absolute; right: 1rem; top: 1rem; background: #0E7479; color: #fff; border: none; border-radius: 9999px; padding: .5rem .9rem; box-shadow: 0 2px 8px rgba(14,116,121,.25); cursor: pointer; }
+.overlay-card { position: absolute; right: 1rem; top: 3.5rem; width: 360px; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 12px 24px rgba(0,0,0,.12); z-index: 5; padding: .75rem; }
+.overlay-header { display: flex; justify-content: space-between; align-items: center; font-weight: 700; color: #1f2937; margin-bottom: .5rem; }
+.link-close { background: none; border: none; color: #0E7479; font-weight: 600; cursor: pointer; }
+
+.map-hint {
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.875rem;
+  margin: 0.5rem 0 0 0;
 }
 
 

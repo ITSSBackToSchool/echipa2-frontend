@@ -16,7 +16,7 @@ import { AuthService } from '../../core/services/auth.service';
 interface BuildingDTO { id: number; name: string; }
 interface FloorDTO { id: number; name: string; }
 interface RoomDTO { id: number; name: string; roomType: string; }
-interface SeatAvailabilityDTO { id: number; seatNumber: string; isAvailable: boolean; }
+interface SeatAvailabilityDTO { id: number; seatNumber: string; isAvailable: boolean; reservedBy?: string; }
 
 interface CreateReservationSeatRequest {
   userId: number;
